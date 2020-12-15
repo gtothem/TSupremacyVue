@@ -30,9 +30,9 @@
           <v-col>
             <v-timeline align-top dense>
               <v-timeline-item
-                v-for="item in tasks"
+                v-for="(item, index) in tasks"
                 :key="item.id"
-                color="primary darken-3"
+                :color="'primary ' + colorSwitch((index % 2) + 1)"
                 small
               >
                 <v-row class="pt-1">
@@ -45,7 +45,7 @@
                         item.name
                       }}</a></strong
                     >
-                    <div class="caption">5/5</div>
+                    <div class="caption"><span v-if="item.name.includes('Search')"> {{ item.taskItem.taskSettings.searchTerm }} - </span> {{ item.taskGood }} / {{ item.taskTotal }}</div>
                   </v-col>
                 </v-row>
               </v-timeline-item>
@@ -110,6 +110,13 @@ export default {
   components: { FriendsToolbar },
   name: "activity-table",
   methods: {
+    colorSwitch(c) {
+      if (c === 1) {
+        return "primary darken-3";
+      } else {
+        return "primary lighten-3";
+      }
+    },
     viewTask(t) {
       console.log(t);
       this.$router.push({
@@ -152,15 +159,6 @@ export default {
           return "fa fa-heart blue";
       }
     },
-    colorSwitch() {
-      if (this.altColor === 0) {
-        this.altColor = 1;
-        return "primary darken-3";
-      } else {
-        this.altColor = 0;
-        return "primary lighten-3";
-      }
-    },
     async getActivityAPI() {
       fetch("https://localhost:44396/TwitterBot/Actions", {
         method: "POST",
@@ -201,6 +199,11 @@ export default {
       ],
     };
   },
+  computed: {
+    numberOfPlayers: function() {
+    	return 2;
+    }
+  },
   props: {
     data: {
       type: Array,
@@ -214,5 +217,12 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+}
+.style-1 {
+  color: '#1E90FF';
+}
+
+.style-2 {
+  color: red;
 }
 </style>

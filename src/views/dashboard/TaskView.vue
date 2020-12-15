@@ -5,7 +5,7 @@
           <v-btn @click="$router.go(-1)" x-small text class="mr-2">
               <span> GO BACK </span>
           </v-btn>
-        <v-icon sm> mdi-animation-play</v-icon>
+        <v-icon sm> mdi-play</v-icon>
         <span class="display-2 font-weight-light ml-2"
           >[{{ data.taskMode }}] [{{ data.name }}] {{ data.id }}</span
         >
@@ -14,7 +14,7 @@
       <v-card-text>
         <v-row
           ><v-col cols="auto">
-            <!--<base-material-card color="primary" class="px-5 py-3" size="pa-2">
+            <base-material-card color="primary" class="px-5 py-3" size="pa-2">
               <template v-slot:heading>
                 <v-icon sm> mdi-animation-play</v-icon>
                 <span class="display-2 font-weight-light ml-2">User List</span>
@@ -22,12 +22,12 @@
               </template>
               <v-card-text>
                 <table>
-                  <tr v-for="item in data.UserList" :key="item.index">
-                    <td class="pl-5">{{ item.UserName }}</td>
+                  <tr v-for="item in data.taskItem.userList" :key="item.index">
+                    <td class="pl-5">{{ item.username }}</td>
                   </tr>
                 </table>
               </v-card-text>
-            </base-material-card>-->
+            </base-material-card>
           </v-col>
           <v-col cols="auto">
             <base-material-card color="primary" class="px-5 py-3" size="pa-2">
@@ -41,7 +41,7 @@
               <v-card-text>
                 <table>
                   <tr
-                    v-for="(item, key) in data.taskSettings"
+                    v-for="(item, key) in data.taskItem.taskSettings"
                     :key="item.index"
                   >
                     <td class="px-5">{{ key }}</td>
@@ -51,7 +51,7 @@
               </v-card-text>
             </base-material-card>
           </v-col>
-          <!--<v-col v-if="data.DataList.length > 0" cols="auto">
+          <v-col v-if="data.taskItem.dataList.length > 0" cols="auto">
             <base-material-card color="primary" class="px-5 py-3" size="pa-2">
               <template v-slot:heading>
                 <v-icon sm> mdi-animation-play</v-icon>
@@ -60,14 +60,14 @@
               </template>
               <v-card-text>
                 <table>
-                  <tr v-for="item in data.DataList" :key="item.index">
+                  <tr v-for="item in data.taskItem.dataList" :key="item.index">
                     <td class="pl-5">{{ item }}</td>
                   </tr>
                 </table>
               </v-card-text>
             </base-material-card>
           </v-col>
-          <v-col v-if="data.ImageList.length > 0" cols="auto">
+          <v-col v-if="data.taskItem.imageList.length > 0" cols="auto">
             <base-material-card color="primary" class="px-5 py-3">
               <template v-slot:heading>
                 <v-icon sm> mdi-animation-play</v-icon>
@@ -76,13 +76,13 @@
               </template>
               <v-card-text>
                 <table>
-                  <tr v-for="item in data.ImageList" :key="item.index">
+                  <tr v-for="item in data.taskItem.imageList" :key="item.index">
                     <td class="pl-5">{{ item }}</td>
                   </tr>
                 </table>
               </v-card-text>
             </base-material-card>
-          </v-col>-->
+          </v-col>
         </v-row>
       </v-card-text>
 
@@ -115,10 +115,8 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log("Success:", data);
-          console.log("Success1:", this.data);
           this.data = data.data[0];
           console.log("Success2:", this.data);
-          console.log("Success2:", data.data[0]);
         })
         .catch((error) => {
           console.error("Error:", error);

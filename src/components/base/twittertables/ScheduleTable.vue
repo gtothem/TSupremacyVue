@@ -24,7 +24,7 @@
               ><v-icon sm color="primary" class="mr-1">
                 mdi-account-details
               </v-icon>
-              <b>{{ item.name }}</b></a
+              <strong>{{ item.name }}</strong></a
             >
           </template>
           <template v-slot:[`item.task`]="{ item }">
