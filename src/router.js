@@ -17,7 +17,46 @@ export default new Router({
           path: '',
           component: () => import('@/views/dashboard/Dashboard'),
         },
-        // Pages
+        {
+          name: 'Accounts',
+          path: 'pages/accounts',
+          component: () => import('@/views/dashboard/Accounts'),
+        },
+        {
+          name: 'Schedules',
+          path: 'pages/schedules',
+          component: () => import('@/views/dashboard/Schedules'),
+        },
+        {
+          name: 'Stepper',
+          path: 'pages/stepper',
+          component: () => import('@/views/dashboard/Stepper'),
+        },
+        {
+          name: 'Reports',
+          path: 'pages/reports',
+          component: () => import('@/views/dashboard/Reports'),
+        },
+        {
+          name: 'Console',
+          path: 'pages/console',
+          component: () => import('@/views/dashboard/Console'),
+        },
+        {
+          name: 'Proxies',
+          path: 'pages/proxies',
+          component: () => import('@/views/dashboard/Proxies'),
+        },
+        {
+          name: 'User Profiles',
+          path: 'pages/profiles',
+          component: () => import('@/views/dashboard/Profiles'),
+        },
+        {
+          name: 'Task View',
+          path: 'pages/taskview',
+          component: () => import('@/views/dashboard/TaskView'),
+        },
         {
           name: 'User Profile',
           path: 'pages/user',

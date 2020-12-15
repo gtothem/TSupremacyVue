@@ -9,7 +9,7 @@
         cols="12"
         md="8"
       >
-        <base-material-card>
+        <base-material-card color="blue">
           <template v-slot:heading>
             <div class="display-2 font-weight-light">
               Edit Profile
@@ -124,7 +124,7 @@
                   class="text-right"
                 >
                   <v-btn
-                    color="success"
+                    color="primary"
                     class="mr-0"
                   >
                     Update Profile
@@ -158,7 +158,7 @@
             </p>
 
             <v-btn
-              color="success"
+              color="primary"
               rounded
               class="mr-0"
             >

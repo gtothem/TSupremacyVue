@@ -13,7 +13,7 @@
           :data="emailsSubscriptionChart.data"
           :options="emailsSubscriptionChart.options"
           :responsive-options="emailsSubscriptionChart.responsiveOptions"
-          color="#E91E63"
+          color="primary"
           hover-reveal
           type="Bar"
         >

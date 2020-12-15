@@ -27,12 +27,12 @@
       <v-list-item>
         <v-list-item-avatar
           class="align-self-center"
-          color="white"
+          color="transparent"
           contain
         >
           <v-img
-            src="https://demos.creative-tim.com/vuetify-material-dashboard/favicon.ico"
-            max-height="30"
+            src="https://www.tsupremacy.com/dankbots.png"
+            max-height="35"
           />
         </v-list-item-avatar>
 
@@ -112,34 +112,34 @@
           to: '/',
         },
         {
-          icon: 'mdi-account',
-          title: 'user',
-          to: '/pages/user',
+          icon: 'mdi-account-circle',
+          title: 'accounts',
+          to: '/pages/accounts',
         },
         {
-          title: 'rtables',
-          icon: 'mdi-clipboard-outline',
-          to: '/tables/regular-tables',
+          icon: 'mdi-alarm',
+          title: 'schedules',
+          to: '/pages/schedules',
         },
         {
-          title: 'typography',
-          icon: 'mdi-format-font',
-          to: '/components/typography',
+          icon: 'mdi-wifi-star',
+          title: 'proxies',
+          to: '/pages/proxies',
         },
         {
-          title: 'icons',
-          icon: 'mdi-chart-bubble',
-          to: '/components/icons',
+          icon: 'mdi-face-profile',
+          title: 'profiles',
+          to: '/pages/profiles',
         },
         {
-          title: 'google',
-          icon: 'mdi-map-marker',
-          to: '/maps/google-maps',
+          icon: 'mdi-file-chart',
+          title: 'reports',
+          to: '/pages/reports',
         },
         {
-          title: 'notifications',
-          icon: 'mdi-bell',
-          to: '/components/notifications',
+          icon: 'mdi-console-line',
+          title: 'console',
+          to: '/pages/console',
         },
       ],
     }),
