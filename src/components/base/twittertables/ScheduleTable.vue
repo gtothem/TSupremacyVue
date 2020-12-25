@@ -3,7 +3,7 @@
     <base-material-card color="primary" class="px-5 py-3">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">
-          Schedule List ({{ schedules.length }})
+          Schedule List ({{ $store.state.schedules.length }})
         </div>
         <div class="subtitle-1 font-weight-light">
           The Current Time: {{ theTime() }}
@@ -13,7 +13,7 @@
         <v-data-table
           v-model="selected"
           :headers="headers"
-          :items="schedules"
+          :items="$store.state.schedules"
           :hide-default-footer="true"
           item-key="name"
           show-select
@@ -84,7 +84,7 @@ export default {
           return "mdi-twitter-retweet";
         case "Message":
           return "mdi-message";
-        case "Repky":
+        case "Reply":
           return "mdi-message-reply-text";
         case "Like":
           return "mdi-thumb-up";
@@ -114,7 +114,8 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log("Success:", data);
-          this.schedules = data.data;
+          //this.schedules = data.data;
+          this.$store.commit('SET_SCHEDULES', data.data)
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -145,13 +146,12 @@ export default {
   },
   data() {
     return {
-      schedules: this.data,
+      schedules: [],
       selected: [],
       headers: [
         {
           text: "NAME",
           align: "start",
-          sortable: false,
           value: "name",
         },
         { text: "TASK", value: "task" },
@@ -162,11 +162,6 @@ export default {
     };
   },
   props: {
-    data: {
-      type: Array,
-      default: () => [],
-      description: "Table data",
-    },
   },
 };
 </script>

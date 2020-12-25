@@ -28,9 +28,9 @@ export default new Router({
           component: () => import('@/views/dashboard/Schedules'),
         },
         {
-          name: 'Stepper',
-          path: 'pages/stepper',
-          component: () => import('@/views/dashboard/Stepper'),
+          name: 'Task Builder',
+          path: 'pages/taskbuilder',
+          component: () => import('@/views/dashboard/TaskBuilder'),
         },
         {
           name: 'Reports',

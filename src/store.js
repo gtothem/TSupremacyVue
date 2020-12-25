@@ -1,24 +1,63 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
-    barImage: 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
+    barColor: "rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)",
+    barImage:
+      "https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg",
     drawer: null,
     token: null,
+    accounts: [],
+    console: [],    
+    proxies: [],
+    reports: [],
+    schedules: [],
+    friends: [],
+    followers: [],
+    statuses: [],
+    actions: [],
+    tasks: [],
   },
   mutations: {
-    SET_BAR_IMAGE (state, payload) {
-      state.barImage = payload
+    SET_BAR_IMAGE(state, payload) {
+      state.barImage = payload;
     },
-    SET_DRAWER (state, payload) {
-      state.drawer = payload
+    SET_DRAWER(state, payload) {
+      state.drawer = payload;
     },
+    SET_ACCOUNTS(state, payload) {
+      state.accounts = payload;
+    },
+    SET_CONSOLE(state, payload) {
+      state.console = payload;
+    },
+    SET_PROXIES(state, payload) {
+      state.proxies = payload;
+    },
+    SET_REPORTS(state, payload) {
+      state.reports = payload;
+    },
+    SET_SCHEDULES(state, payload) {
+      state.schedules = payload;
+    },
+    SET_FRIENDS(state, payload) {
+      state.friends = payload;
+    },
+    SET_FOLLOWERS(state, payload) {
+      state.followers = payload;
+    },
+    SET_STATUSES(state, payload) {
+      state.statuses = payload;
+    },
+    SET_ACTIONS(state, payload) {
+      state.actions = payload;
+    },
+    SET_TASKS(state, payload) {
+      state.tasks = payload;
+    }
   },
-  actions: {
-
-  },
-})
+  actions: {}
+});

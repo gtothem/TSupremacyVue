@@ -3,7 +3,7 @@
     <base-material-card color="primary" class="px-5 py-3">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">
-          Reports ({{ reports.length }})
+          Reports ({{ $store.state.reports.length }})
         </div>
       </template>
       <v-card-text>
@@ -11,7 +11,7 @@
           dense
           v-model="selected"
           :headers="headers"
-          :items="reports"
+          :items="$store.state.reports"
           class="elevation-1 ml-3"
           :itemsPerPage="itemsPerPage"
         >
@@ -67,6 +67,8 @@ export default {
           return "mdi-account-multiple-minus";
         case "Proxy":
           return "mdi-wifi";
+        case "Sync":
+          return "mdi-battlenet";
       }
     },
     async getReportsAPI() {
@@ -79,7 +81,8 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log("Success:", data);
-          this.reports = data.data;
+          //this.reports = data.data;
+          this.$store.commit('SET_REPORTS', data.data)
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -91,7 +94,7 @@ export default {
   },
   data() {
     return {
-      reports: this.data,
+      reports: [],
       selected: [],
       headers: [
         {
@@ -105,11 +108,6 @@ export default {
     };
   },
   props: {
-    data: {
-      type: Array,
-      default: () => [],
-      description: "Table data",
-    },
     itemsPerPage: {
       type: Number,
       default: 10,

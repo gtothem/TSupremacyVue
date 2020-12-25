@@ -2,13 +2,13 @@
   <div>
     <base-material-card color="primary" class="px-5 py-3">
       <template v-slot:heading>
-        <div class="display-2 font-weight-light">Proxy List ({{ proxies.length }})</div>
+        <div class="display-2 font-weight-light">Proxy List ({{ $store.state.proxies.length }})</div>
       </template>
       <v-card-text>
         <v-data-table
           v-model="selected"
           :headers="headers"
-          :items="proxies"
+          :items="$store.state.proxies"
           :hide-default-footer="true"
           item-key="id"
           show-select
@@ -16,7 +16,7 @@
         >
         
           <template v-slot:[`item.proxy`]="{ item }">
-            <v-icon sm color="primary"> mdi-power-plug </v-icon>
+            <v-icon sm color="primary"> mdi-wifi </v-icon>
             {{ item.proxy }}
           </template>
 
@@ -28,7 +28,7 @@
           </template>
 
           <template v-slot:[`item.latency`]="{ item }">
-            <v-icon sm color="primary"> mdi-wifi </v-icon>
+            <v-icon sm color="primary"> mdi-power-plug </v-icon>
             {{ item.latency }}
           </template>
 
@@ -63,7 +63,7 @@ export default {
             function (scope) {
               scope.getProxiesAPI();
             },
-            500,
+            1000,
             this
           );
           return "mdi-alert-circle";
@@ -80,8 +80,9 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Success:", data);
-          this.proxies = data.data;
+          console.log("Proxies:", data);          
+          this.$store.commit('SET_PROXIES', data.data)
+          //this.proxies = data.data;
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -128,13 +129,12 @@ export default {
   },
   data() {
     return {
-      proxies: this.data,
+      proxies: [],
       selected: [],
       headers: [
         {
           text: "PROXY",
           align: "start",
-          sortable: false,
           value: "proxy",
         },
         { text: "STATUS", value: "status" },
@@ -146,11 +146,6 @@ export default {
     };
   },
   props: {
-    data: {
-      type: Array,
-      default: () => [],
-      description: "Table data",
-    },
   },
 };
 </script>

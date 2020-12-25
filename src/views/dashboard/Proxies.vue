@@ -1,6 +1,6 @@
 <template>
   <div>
-    <proxies :data="proxies" :selected="selected" />
+    <proxies :selected="selected" />
   </div>
 </template>
 
@@ -13,30 +13,6 @@ export default {
     return {
       singleSelect: false,
       selected: [],
-      proxies: [
-        {
-          id: "1-12-12-12-12",
-          owner: 1,
-          proxy: "12.12.12.12",
-          status: "",
-          user: "",
-          pass: "",
-          twitter: "",
-          latency: "",
-          country: "US",
-        },
-        {
-          id: "1-Real",
-          owner: 1,
-          proxy: "Real",
-          status: "Good",
-          user: "",
-          pass: "",
-          twitter: "Good",
-          latency: "322",
-          country: "GB",
-        },
-      ],
     };
   },
 };

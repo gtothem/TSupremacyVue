@@ -18,7 +18,7 @@
         >
           <template v-slot:[`item.username`]="{ item }">
             <b
-              ><a href="#" style="text-decoration: none"
+              ><a @click="viewProfile(item)" style="text-decoration: none"
                 ><v-avatar size="30px" class="mr-2">
                   <img :src="item.picture" alt="" />
                 </v-avatar>
@@ -27,7 +27,7 @@
             >
           </template>
           <template v-slot:[`item.proxy`]="{ item }">
-            <country-flag country="gb" size="small" />
+            <country-flag :country="proxyCC(item.proxy)" size="small" />
             {{ item.proxy }}
           </template>
           <template v-slot:[`item.status`]="{ item }">
@@ -71,6 +71,18 @@ export default {
   components: { AccountsToolbar },
   name: "accounts-table",
   methods: {
+    viewProfile(p) {
+      console.log(p);
+      this.$router.push({
+        name: "User Profiles",
+        params: {
+          profile: p,
+        },
+      });
+    },
+    proxyCC(id) {
+      return this.$store.state.proxies.find((x) => x.proxy === id).country;
+    },
     calc(status) {
       let num = status.split("/");
       return (num[0] / num[1]) * 100;
@@ -90,8 +102,9 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Success:", data);
+          console.log("Accounts:", data);
           this.accounts = data.data;
+          this.$store.commit("SET_ACCOUNTS", data.data);
 
           if (this.updating === true) {
             setTimeout(
@@ -126,8 +139,6 @@ export default {
   },
   created() {
     this.getAccountsAPI();
-    console.log(this.$store.state.barImage);
-
     if (this.$route.params.tasked === true) {
       setTimeout(
         function (scope) {
@@ -140,14 +151,13 @@ export default {
   },
   data() {
     return {
-      accounts: this.data,
+      accounts: this.$store.state.accounts,
       selected: [],
       showModal: false,
       headers: [
         {
           text: "USERNAME",
           align: "start",
-          sortable: false,
           value: "username",
         },
         { text: "PROXY", value: "proxy" },
@@ -162,11 +172,6 @@ export default {
     };
   },
   props: {
-    data: {
-      type: Array,
-      default: () => [],
-      description: "Table data",
-    },
     updating: {
       type: Boolean,
       default: false,

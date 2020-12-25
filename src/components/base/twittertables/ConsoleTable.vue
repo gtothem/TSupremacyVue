@@ -9,20 +9,20 @@
           dense
           v-model="selected"
           :headers="headers"
-          :items="console"
+          :items="$store.state.console"
           class="elevation-1 ml-3"
           ref="consoleTable"
           :itemsPerPage="-1"
           :hide-default-footer="true"
           item-key="index"
-          height="250px"
+          height="450px"
           fixed-header
         >
           <template v-slot:[`item.time`]="{ item }">
             <span>{{ new Date(item.time).toLocaleString() }}</span>
           </template>
           <template v-slot:[`item.status`]="{ item }">
-            <v-icon sm color="primary"> mdi-check-circle </v-icon>
+            <v-icon sm :color="formatColor(item.status)"> {{ formatStatus(item.status) }} </v-icon>
             {{ item.status }}
           </template>
           <template v-slot:[`item.task`]="{ item }">
@@ -33,8 +33,13 @@
               >{{ item.task }}</a
             >
           </template>
+          <template v-slot:[`item.message`]="{ item }">
+            <small v-if="lenSize(item.message)">{{ item.message.substring(0, 100) }}</small>
+            <span v-if="!lenSize(item.message)">{{ item.message }}</span>
+          </template>
+
           <template v-slot:[`item.proxy`]="{ item }">
-            <country-flag country="gb" size="small" /> {{ item.proxy }}
+            <country-flag :country="item.proxyCC" size="small" /> {{ item.proxy }}
           </template>
         </v-data-table>
       </v-card-text>
@@ -50,14 +55,31 @@ export default {
       handler: function () {
         setTimeout(() => {
           this.scrollBottom();
-        }, 500);
+        }, 100);
       },
       deep: true,
     },
   },
   methods: {
+    lenSize(m) {
+      if (m.length > 60) {
+        return true;
+      }
+      return false;
+    },
+    formatColor(s) {
+        if (s === "Bad") {
+            return "red";
+        }
+        return "primary"
+    },
+    formatStatus(s) {
+        if (s === "Bad") {
+            return "mdi-alert-circle";
+        }
+        return "mdi-check-circle"
+    },
     viewTask(t) {
-      console.log(t);
       this.$router.push({
         name: "Task View",
         params: { taskId: t },
@@ -78,8 +100,9 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Success:", data);
+          console.log("Console:", data);
           this.console = data.data;
+          this.$store.commit('SET_CONSOLE', data.data)
           if (this.updating === true) {
             setTimeout(
               function (scope) {
@@ -100,13 +123,12 @@ export default {
   },
   data() {
     return {
-      console: this.data,
+      console: [],
       selected: [],
       headers: [
         {
           text: "TIME",
           align: "start",
-          sortable: true,
           value: "time",
         },
         { text: "TASK", value: "task" },
@@ -118,11 +140,6 @@ export default {
     };
   },
   props: {
-    data: {
-      type: Array,
-      default: () => [],
-      description: "Table data",
-    },
     itemsPerPage: {
       type: Number,
       default: 10,
@@ -143,10 +160,4 @@ export default {
 </script>
 
 <style scoped>
-.center {
-  margin: auto;
-  width: 90%;
-  border: 0px solid rgb(0, 77, 128);
-  padding: 10px;
-}
 </style>

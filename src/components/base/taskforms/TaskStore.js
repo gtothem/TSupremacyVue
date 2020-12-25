@@ -30,6 +30,7 @@ export default {
             proxyProxy: null,
             proxyUser: null,
             proxyPass: null,
+            listRandom: null,
         },
         User: {
             userid: null,
@@ -143,6 +144,7 @@ export default {
                 proxyProxy: null,
                 proxyUser: null,
                 proxyPass: null,
+                listRandom: null,
             },
             User: {
                 username: null,

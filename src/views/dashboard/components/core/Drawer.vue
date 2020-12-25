@@ -127,11 +127,6 @@
           to: '/pages/proxies',
         },
         {
-          icon: 'mdi-face-profile',
-          title: 'profiles',
-          to: '/pages/profiles',
-        },
-        {
           icon: 'mdi-file-chart',
           title: 'reports',
           to: '/pages/reports',

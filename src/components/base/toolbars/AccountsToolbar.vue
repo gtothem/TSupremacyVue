@@ -24,7 +24,7 @@
 
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn  class="mx-2" color="primary" v-bind="attrs" v-on="on">
+          <v-btn class="mx-2" color="primary" v-bind="attrs" v-on="on">
             Tasks
           </v-btn>
         </template>
@@ -160,6 +160,17 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="dialogWarn" max-width="300">
+      <v-card>
+        <v-card-title class="headline"> Accounts </v-card-title>
+        <v-card-text> No account(s) selected! </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="dialogWarn = false"> Ok </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -170,20 +181,32 @@ export default {
   name: "accounts-toolbar",
   methods: {
     runTask(action) {
-      this.$router.push({
-        name: "Stepper",
-        params: { taskName: action, taskMode: "Now", accounts: this.selected },
-      });
+      if (Object.keys(this.selected).length > 0) {
+        this.$router.push({
+          name: "TaskBuilder",
+          params: {
+            taskName: action,
+            taskMode: "Now",
+            accounts: this.selected,
+          },
+        });
+      } else {
+        this.dialogWarn = true;
+      }
     },
     runSchedule(action) {
-      this.$router.push({
-        name: "Stepper",
-        params: {
-          taskName: action,
-          taskMode: "Schedule",
-          accounts: this.selected,
-        },
-      });
+      if (Object.keys(this.selected).length > 0) {
+        this.$router.push({
+          name: "TaskBuilder",
+          params: {
+            taskName: action,
+            taskMode: "Schedule",
+            accounts: this.selected,
+          },
+        });
+      } else {
+        this.dialogWarn = true;
+      }
     },
     runAccounts(task) {
       switch (task) {
@@ -191,14 +214,18 @@ export default {
           this.dialog = true;
           break;
         case "Delete":
-          this.storedItems.TaskMode = "Account";
-          TaskStore.convertTaskSettings(this.storedItems.TaskSettings);
-          this.storedItems.TaskName = "accountDelete";
-          this.storedItems.UserList = this.selected;
-          TaskStore.stripUserList();
-          TaskStore.stripUser(this.storedItems.User);
-          this.$emit("delete:account", this.storedItems);
-          Object.assign(this.storedItems, TaskStore.resetData());
+          if (Object.keys(this.selected).length > 0) {
+            this.storedItems.TaskMode = "Account";
+            TaskStore.convertTaskSettings(this.storedItems.TaskSettings);
+            this.storedItems.TaskName = "accountDelete";
+            this.storedItems.UserList = this.selected;
+            TaskStore.stripUserList();
+            TaskStore.stripUser(this.storedItems.User);
+            this.$emit("delete:account", this.storedItems);
+            Object.assign(this.storedItems, TaskStore.resetData());
+          } else {
+            this.dialogWarn = true;
+          }
           break;
         case "Send":
           this.storedItems.User.userid = "0";
@@ -217,6 +244,7 @@ export default {
       storedItems: TaskStore.data,
       accounts: this.data,
       dialog: false,
+      dialogWarn: false,
       items: {
         accounts: [
           {
@@ -253,9 +281,7 @@ export default {
           {
             title: "Message",
             icon: "mdi-message",
-            subitems: [
-              { title: "Followers", icon: "mdi-comment-edit" },
-            ],
+            subitems: [{ title: "Followers", icon: "mdi-comment-edit" }],
           },
           {
             title: "Reply",
@@ -301,9 +327,9 @@ export default {
           },
           {
             title: "Sync",
-            icon: "mdi-cloud-refresh",
+            icon: "mdi-battlenet",
             subitems: [
-              { title: "Update", icon: "mdi-cloud-refresh" },
+              { title: "Update", icon: "mdi-battlenet" },
               { title: "Delete", icon: "mdi-delete" },
             ],
           },

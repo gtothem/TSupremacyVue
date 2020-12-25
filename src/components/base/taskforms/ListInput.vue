@@ -33,6 +33,39 @@
           </v-data-table>
         </v-col>
       </v-row>
+      <v-row no-gutters class="mx-2 mt-4">
+        <v-col cols="auto">
+          <v-slider
+            v-model="storedItems.TaskSettings.count"
+            class="align-center"
+            :max="myItemsLength"
+            min="0"
+            hide-details
+            label="Count"
+            style="width: 300px"
+          >
+            <template v-slot:append>
+              <v-text-field
+                class="mt-0 pt-0"
+                hide-details
+                single-line
+                type="text"
+                style="width: 45px"
+                :value="storedItems.TaskSettings.count"
+              ></v-text-field>
+            </template>
+          </v-slider>
+        </v-col>
+
+        <v-col>
+          <v-switch
+            name="randomSwitch"
+            v-model="storedItems.TaskSettings.listRandom"
+            label="Randomize"
+            class="ml-4"
+          ></v-switch
+        ></v-col>
+      </v-row>
     </v-container>
 
     <v-dialog v-model="dialog" max-width="290">
@@ -73,6 +106,7 @@ export default {
   methods: {
     itemAdd() {
       this.storedItems.DataList.push(this.inputItem);
+      this.inputItem = "";
     },
     itemDelete(item) {
       this.storedItems.DataList.splice(
@@ -108,6 +142,9 @@ export default {
   computed: {
     myItemsTransformed() {
       return this.storedItems.DataList.map((item) => ({ item }));
+    },
+    myItemsLength() {
+      return this.storedItems.DataList.length;
     },
   },
   props: {

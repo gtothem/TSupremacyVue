@@ -2,12 +2,19 @@
   <div>
     <base-material-card color="primary" class="px-5 py-3">
       <template v-slot:heading>
-          <v-btn @click="$router.go(-1)" x-small text class="mr-2">
-              <span> GO BACK </span>
-          </v-btn>
-        <v-icon sm> mdi-play</v-icon>
+        <v-btn @click="$router.go(-1)" x-small text class="mr-2">
+          <span> GO BACK </span>
+        </v-btn>
+        <v-icon large> mdi-file-chart</v-icon>
         <span class="display-2 font-weight-light ml-2"
-          >[{{ data.taskMode }}] [{{ data.name }}] {{ data.id }}</span
+          >[<a
+            v-if="data.taskMode === 'Schedule'"
+            href="#"
+            class="nlink primary--text text--lighten-2"
+            >{{ data.taskMode }}</a
+          >
+          <span v-if="data.taskMode !== 'Schedule'">{{ data.taskMode }}</span
+          >] [{{ data.name }}] {{ data.id }}</span
         >
         <v-spacer></v-spacer>
       </template>
@@ -23,7 +30,9 @@
               <v-card-text>
                 <table>
                   <tr v-for="item in data.taskItem.userList" :key="item.index">
-                    <td class="pl-5">{{ item.username }}</td>
+                    <td class="pl-5">
+                      <a href="#" class="nlink">{{ item.username }}</a>
+                    </td>
                   </tr>
                 </table>
               </v-card-text>
@@ -146,8 +155,7 @@ export default {
           time: "12/14/2020 6:41:24 PM",
           taskMode: "Now",
           userList: "zhaky43118143, ",
-          taskSettings:
-            "",
+          taskSettings: "",
         },
       ],
     };
@@ -163,4 +171,7 @@ export default {
 </script>
 
 <style scoped>
+.nlink {
+  text-decoration: none;
+}
 </style>

@@ -4,7 +4,7 @@
       <!-- TASK MENU -->
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn rounded color="primary" v-bind="attrs" v-on="on">
+          <v-btn class="mx-2" color="primary" v-bind="attrs" v-on="on">
             Tasks
           </v-btn>
         </template>
@@ -40,7 +40,7 @@
         </v-list>
       </v-menu>
 
-      <v-btn rounded color="primary" class="ml-2" @click="runSchedule('Tweet-Single')">Export</v-btn>
+      <v-btn color="primary" class="ml-2" @click="runSchedule('Tweet-Single')">Export</v-btn>
     </div>
   </div>
 </template>
@@ -53,14 +53,14 @@ export default {
     runTask(action) {
       console.log(action);
       this.$router.push({
-        name: "Stepper",
+        name: "TaskBuilder",
         params: { taskName: action, taskMode: 'Now', accounts: this.selected },
       });
     },
     runSchedule(action) {
       console.log(action);
       this.$router.push({
-        name: "Stepper",
+        name: "TaskBuilder",
         params: { taskName: action, taskMode: 'Schedule', accounts: this.selected },
       });
     },

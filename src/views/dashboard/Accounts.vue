@@ -2,29 +2,31 @@
 <template>
   <div>
     <base-material-alert
-      v-if="1 === 2"
-      color="primary"
+      v-for="item in tasks"
+      :key="item.id"
+      :color="primary"
       dismissible
-      icon="mdi-timer-sand"
       class="center my-2"
-      width="75%"
+      width="35%"
     >
       <v-progress-circular
         :rotate="90"
         :size="30"
         :width="5"
-        :value="value"
+        :value="calc(item.taskGood + '/' + item.taskSize)"
         color="white"
         class="mr-2"
       >
-        <small>{{ value }}</small>
+        <small>{{ calc(item.taskGood + '/' + item.taskSize) }}</small>
       </v-progress-circular>
-      <span>Running - 12s - Follow Search 2/6</span>
+      <span class="font-weight-light"
+        >[{{ item.name }}] [{{ item.taskGood }}/{{ item.taskSize }}]
+         - {{ item.id }}</span
+      >
     </base-material-alert>
-
-    <accounts :data="accounts" :updating="updating" />
+    <accounts :updating="updating" />
     <br />
-    <console :data="console" reqBody="%" :updating="updating" />
+    <console reqBody="%" :updating="updating" />
   </div>
 </template>
 
@@ -52,19 +54,23 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Success:", data);
+          console.log("Tasks:", data);
           console.log(Object.keys(data.data).length);
           if (Object.keys(data.data).length > 0) {
+            //this.tasks = data.data;
             this.updating = true;
             setTimeout(
               function (scope) {
                 scope.getTasks();
               },
-              3000,
+              1500,
               this
             );
           } else {
             this.updating = false;
+            for (let task in this.tasks) {
+                task.taskGood = task.taskTotal;                
+            }
           }
         })
         .catch((error) => {
@@ -72,90 +78,17 @@ export default {
           this.updating = false;
         });
     },
+    calc(status) {
+      let num = status.split("/");
+      return Math.round((num[0] / num[1]) * 100);
+    },
   },
   data() {
     return {
       updating: false,
       value: 45,
       selected: [],
-      accounts: [
-        {
-          id: 1,
-          picture:
-            "https://pbs.twimg.com/profile_images/1282372019192041472/j5OEUQJu_normal.jpg",
-          username: "zhaky43118143",
-          userId: "3301325541",
-          proxy: "134.202.250.105:45785",
-          status: "Good",
-          password: "6jk7W65z0",
-          useragent: "Chrome",
-          email: "difximyqiiehaldwjc@awdrt.net",
-          friends: "442",
-          followers: "79",
-          statuses: "596",
-        },
-        {
-          id: 7,
-          picture: "0",
-          username: "testera",
-          userId: "0",
-          proxy: "Real",
-          status: "Good",
-          password: "CgYQ9xDX",
-          useragent: "Chrome",
-          email: "kt7ktkt@hotmail.co.uk",
-          friends: "0",
-          followers: "0",
-          statuses: "0",
-        },
-      ],
-      console: [
-        {
-          owner: 1,
-          time: "11/22/2020 9:01:00 PM",
-          message: "Connected",
-          account: "zhaky43118143",
-          proxy: "134.202.250.105:45785",
-          status: "Good",
-          task: "like-search-20201122210059",
-        },
-        {
-          owner: 1,
-          time: "11/22/2020 9:01:00 PM",
-          message: "Search lol",
-          account: "zhaky43118143",
-          proxy: "134.202.250.105:45785",
-          status: "Good",
-          task: "like-search-20201122210059",
-        },
-        {
-          owner: 1,
-          time: "11/22/2020 9:01:04 PM",
-          message: "Liked ArtisticADCxo (1330389061396205568)",
-          account: "zhaky43118143",
-          proxy: "134.202.250.105:45785",
-          status: "Good",
-          task: "like-search-20201122210059",
-        },
-        {
-          owner: 1,
-          time: "11/22/2020 9:01:05 PM",
-          message: "Search Finished lol",
-          account: "zhaky43118143",
-          proxy: "134.202.250.105:45785",
-          status: "Good",
-          task: "like-search-20201122210059",
-        },
-        {
-          owner: 1,
-          time: "11/22/2020 9:01:05 PM",
-          message: "Finished",
-          account: "zhaky43118143",
-          proxy: "134.202.250.105:45785",
-          status: "Good",
-          task: "like-search-20201122210059",
-        },
-      ],
+      tasks: [],      
     };
   },
 };

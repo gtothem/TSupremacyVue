@@ -11,7 +11,7 @@
       style="position: fixed; top: 115px; right: -35px; border-radius: 8px;"
     >
       <v-icon large>
-        mdi-settings
+        mdi-cog
       </v-icon>
     </v-card>
 
@@ -151,7 +151,7 @@
         '#4CAF50',
         '#ff9800',
         '#E91E63',
-        '#ff3030',
+        '#ff0000',
       ],
       image: 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
       images: [

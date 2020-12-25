@@ -4,24 +4,36 @@
       <template v-slot:heading>
         <v-icon sm> mdi-bell-ring</v-icon>
         <span class="display-2 font-weight-light ml-2">
-          Activity List ({{ actions.length }})
+          Activity List ({{ $store.state.actions.length }})
         </span>
       </template>
       <v-card-text>
-        <v-row class="pt-1">
+        <v-row>
           <v-col cols="auto">
             <v-data-table
               dense
               v-model="selected"
               :headers="headers"
-              :items="actions"
+              :items="$store.state.actions"
               item-key="id"
               class="elevation-1"
               :search="search"
-              :itemsPerPage="10"
+              :itemsPerPage="15"
               :hide-default-footer="false"
               fixed-header
             >
+              <template v-slot:[`item.action`]="{ item }">
+                <v-icon sm color="primary" class="pr-2"
+                  >{{ formatAction(item.action) }}
+                </v-icon>
+                <span>{{ item.action }}</span>
+              </template>
+              <template v-slot:[`item.user`]="{ item }">
+                <a href="#">{{ item.user }}</a>
+              </template>
+              <template v-slot:[`item.id`]="{ item }">
+                <a href="#">{{ item.id }}</a>
+              </template>
               <template v-slot:[`item.time`]="{ item }">
                 <span>{{ new Date(item.time).toLocaleString() }}</span>
               </template>
@@ -30,70 +42,28 @@
           <v-col>
             <v-timeline align-top dense>
               <v-timeline-item
-                v-for="(item, index) in tasks"
+                v-for="(item, index) in $store.state.tasks"
                 :key="item.id"
                 :color="'primary ' + colorSwitch((index % 2) + 1)"
-                small
+                :icon="formatTask(item.name)"
               >
                 <v-row class="pt-1">
-                  <v-col cols="3">
-                    <strong>{{ formatDate(item.time) }}</strong>
-                  </v-col>
-                  <v-col>
+                  <v-col cols="2">
                     <strong
-                      ><a @click="viewTask(item.id)">{{
-                        item.name
-                      }}</a></strong
+                      ><a @click="viewTask(item.id)">{{ item.name }}</a></strong
                     >
-                    <div class="caption"><span v-if="item.name.includes('Search')"> {{ item.taskItem.taskSettings.searchTerm }} - </span> {{ item.taskGood }} / {{ item.taskTotal }}</div>
+                    <div class="caption">
+                      <span v-if="item.name.includes('Search')">
+                        {{ item.taskItem.taskSettings.searchTerm }} -
+                      </span>
+                      {{ item.taskGood }} / {{ item.taskTotal }}
+                    </div>
+                    <div class="caption">
+                      {{ formatDate(item.time) }}
+                    </div>
                   </v-col>
-                </v-row>
-              </v-timeline-item>
-
-              <v-timeline-item color="primary darken-3" small>
-                <v-row class="pt-1">
-                  <v-col cols="3">
-                    <strong>5:34pm</strong>
-                  </v-col>
-                  <v-col>
-                    <strong>Follow Search</strong>
-                    <div class="caption">5/5</div>
-                  </v-col>
-                </v-row>
-              </v-timeline-item>
-
-              <v-timeline-item color="primary lighten-3" small>
-                <v-row class="pt-1">
-                  <v-col cols="3">
-                    <strong>3:23pm</strong>
-                  </v-col>
-                  <v-col>
-                    <strong>Unfollow Nonfollowers</strong>
-                    <div class="caption mb-2">10</div>
-                  </v-col>
-                </v-row>
-              </v-timeline-item>
-
-              <v-timeline-item color="primary darken-3" small>
-                <v-row class="pt-1">
-                  <v-col cols="3">
-                    <strong>12pm</strong>
-                  </v-col>
-                  <v-col>
-                    <strong>Lunch break</strong>
-                  </v-col>
-                </v-row>
-              </v-timeline-item>
-
-              <v-timeline-item color="primary lighten-3" small>
-                <v-row class="pt-1">
-                  <v-col cols="3">
-                    <strong>9-11am</strong>
-                  </v-col>
-                  <v-col>
-                    <strong>Sync Update</strong>
-                    <div class="caption">1/1</div>
-                  </v-col>
+                  <small></small>
+                  <v-col> </v-col>
                 </v-row>
               </v-timeline-item>
             </v-timeline>
@@ -149,28 +119,60 @@ export default {
 
       return finalTime;
     },
-    formatStatus(status) {
-      switch (status) {
-        case "Good":
-          return "fa fa-check-circle blue";
-        case "Paused":
-          return "fa fa-pause blue";
-        case "Queued":
-          return "fa fa-heart blue";
+    formatAction(action) {
+      switch (action) {
+        case "Tweet":
+          return "mdi-comment-edit";
+        case "Retweet":
+          return "mdi-twitter-retweet";
+        case "Message":
+          return "mdi-message";
+        case "Reply":
+          return "mdi-message-reply-text";
+        case "Like":
+          return "mdi-thumb-up";
+        case "Follow":
+          return "mdi-account-multiple-plus";
+        case "Unfollow":
+          return "mdi-account-multiple-minus";
+      }
+    },
+    formatTask(taskName) {
+      let task = taskName.split(" ");
+      switch (task[0]) {
+        case "Tweet":
+          return "mdi-comment-edit";
+        case "Retweet":
+          return "mdi-twitter-retweet";
+        case "Message":
+          return "mdi-message";
+        case "Reply":
+          return "mdi-message-reply-text";
+        case "Like":
+          return "mdi-thumb-up";
+        case "Follow":
+          return "mdi-account-multiple-plus";
+        case "Unfollow":
+          return "mdi-account-multiple-minus";
+        case "Sync":
+          return "mdi-battlenet";
       }
     },
     async getActivityAPI() {
       fetch("https://localhost:44396/TwitterBot/Actions", {
         method: "POST",
-        body: "3301325541",
+        body: this.user.userId,
         credentials: "include",
         headers: { "Content-type": "application/json; charset=UTF-8" },
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Success:", data);
-          this.actions = data.data;
-          this.tasks = data.tasks;
+          console.log("activity:", data);
+          //this.actions = data.data;
+          //this.tasks = data.tasks;
+          
+          this.$store.commit('SET_ACTIONS', data.data)
+          this.$store.commit('SET_TASKS', data.tasks)
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -182,7 +184,7 @@ export default {
   },
   data() {
     return {
-      actions: this.data,
+      actions: [],
       tasks: null,
       selected: [],
       search: "",
@@ -200,15 +202,15 @@ export default {
     };
   },
   computed: {
-    numberOfPlayers: function() {
-    	return 2;
-    }
+    numberOfPlayers: function () {
+      return 2;
+    },
   },
   props: {
-    data: {
-      type: Array,
+    user: {
+      type: Object,
       default: () => [],
-      description: "Table data",
+      description: "User data",
     },
   },
 };
@@ -217,12 +219,5 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
-}
-.style-1 {
-  color: '#1E90FF';
-}
-
-.style-2 {
-  color: red;
 }
 </style>

@@ -4,7 +4,7 @@
       <template v-slot:heading>
         <v-icon sm> mdi-account-group</v-icon>
         <span class="display-2 font-weight-light ml-2">
-          Friends List ({{ $store.state.friends.length }})
+          Statuses List ({{ $store.state.statuses.length }})
         </span>
         <v-spacer></v-spacer>
         <v-text-field
@@ -20,30 +20,41 @@
           dense
           v-model="selected"
           :headers="headers"
-          :items="$store.state.friends"
+          :items="$store.state.statuses"
           item-key="id"
           show-select
           class="elevation-1"
           :search="search"
         >
-          <template v-slot:[`item.user`]="{ item }">
-              <a href="#" style="text-decoration: none;">
-            {{ item.user }}</a>
+        <template v-slot:[`item.created`]="{ item }">
+            <span>{{ new Date(item.created).toLocaleString() }}</span>
           </template>
+          
+          <template v-slot:[`item.fullText`]="{ item }">
+              <small v-if="lenSize(item.fullText)">{{ item.fullText.substring(0, 180) }}</small>
+            <span v-if="!lenSize(item.fullText)">{{ item.fullText }}</span>
+          </template>
+            
         </v-data-table>
       </v-card-text>
 
-      <friends-toolbar />
+      <statuses-toolbar />
     </base-material-card>
   </div>
 </template>
 
 <script>
-import FriendsToolbar from "../toolbars/FriendsToolbar";
+import statusesToolbar from "../toolbars/StatusesToolbar";
 export default {
-  components: { FriendsToolbar },
-  name: "friends-table",
+  components: { statusesToolbar },
+  name: "statuses-table",
   methods: {
+    lenSize(m) {
+      if (m.length > 60) {
+        return true;
+      }
+      return false;
+    },
     formatStatus(status) {
       switch (status) {
         case "Good":
@@ -54,8 +65,8 @@ export default {
           return "fa fa-heart blue";
       }
     },
-    async getFriendsAPI() {
-      fetch("https://localhost:44396/TwitterBot/Friends", {
+    async getstatusesAPI() {
+      fetch("https://localhost:44396/TwitterBot/Statuses", {
         method: "POST",
         body: this.user.userId,
         credentials: "include",
@@ -63,9 +74,9 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Success:", data);
+          console.log("Statuses:", data);
           //this.friends = data.data;
-          this.$store.commit('SET_FRIENDS', data.data)
+          this.$store.commit('SET_STATUSES', data.data)
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -73,27 +84,24 @@ export default {
     },
   },
   created() {
-    this.getFriendsAPI();
+    this.getstatusesAPI();
   },
   data() {
     return {
-      friends:[],
+      statuses:[],
       selected: [],
       search: "",
       headers: [
         {
-          text: "USER",
+          text: "ID",
           align: "start",
-          value: "user",
+          value: "id",
         },
-        { text: "STATUSES", value: "statuses" },
-        { text: "LIKES", value: "likes" },
-        { text: "FRIENDS", value: "friends" },
-        { text: "FOLLOWERS", value: "followers" },
-        { text: "FOLLOWBACK", value: "followBack" },
-        { text: "VERIFIED", value: "verified" },
-        { text: "NAME", value: "name" },
-        { text: "DESCRIPTION", value: "description" },
+        { text: "CREATED", value: "created" },
+        { text: "TEXT", value: "fullText" },
+        { text: "LIKES", value: "like" },
+        { text: "COMMENTS", value: "reply" },
+        { text: "RETWEETS", value: "retweet" },
       ],
     };
   },

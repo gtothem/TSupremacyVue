@@ -48,7 +48,7 @@
 <script>
 export default {
   components: {},
-  name: "friends-toolbar",
+  name: "statuses-toolbar",
   methods: {
     runTask(action) {
       this.$router.push({

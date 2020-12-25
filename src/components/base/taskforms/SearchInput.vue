@@ -40,7 +40,7 @@
     <v-row>
       <v-switch
         v-model="additonalSwitch"
-        label="Additional Actions"
+        label="Additional Options"
         class="ml-4"
       ></v-switch>
     </v-row>

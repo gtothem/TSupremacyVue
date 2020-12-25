@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="center">
-      <v-btn @click.stop="dialog = true" class="mx-2" color="primary">Add</v-btn>
+      <v-btn @click.stop="dialog = true" class="mx-2" color="primary"
+        >Add</v-btn
+      >
       <v-btn @click="proxyRun('Proxy-Test')" class="mx-2" color="primary"
         >Test</v-btn
       >
@@ -56,6 +58,10 @@ export default {
   name: "proxies-toolbar",
   methods: {
     proxyRun(task) {
+      this.selected.forEach((value, index) => {          
+        console.log(value.id);
+        this.$store.state.proxies.find(x => x.id === value.id).status = "Testing";
+      });
       this.storedItems.TaskMode = "Proxy";
       this.storedItems.DataList = this.selected;
       TaskStore.stripDataListProxy();
