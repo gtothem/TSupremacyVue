@@ -1,19 +1,29 @@
 <template>
   <div>
-    <base-material-card color="primary" class="px-5 py-3">
+    <base-material-card color="primary" class="px-5 py-3" size="pa-5">
       <template v-slot:heading>
-        <v-icon sm> mdi-account-group</v-icon>
-        <span class="display-2 font-weight-light ml-2"
-          >Followers List ({{ $store.state.followers.length }})</span
-        >
-        <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
+        <v-row>
+          <v-col cols="auto">
+            <v-icon sm class="ml-2"> mdi-account-group</v-icon>
+            <span class="display-2 font-weight-light ml-2"
+              >Followers List ({{ $store.state.followers.length }})</span
+            >
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              single-line
+              hide-details
+              style="display: inline"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="auto">
+              <v-btn small outlined rounded>Filters</v-btn>
+          </v-col>
+        </v-row>
       </template>
       <v-card-text>
         <v-data-table
@@ -25,14 +35,12 @@
           show-select
           class="elevation-1"
         >
-        
           <template v-slot:[`item.user`]="{ item }">
-              <a href="#" style="text-decoration: none;">
-            {{ item.user }}</a>
+            <a href="#" style="text-decoration: none"> {{ item.user }}</a>
           </template>
         </v-data-table>
       </v-card-text>
-      
+
       <followers-toolbar />
     </base-material-card>
   </div>
@@ -65,7 +73,7 @@ export default {
         .then((data) => {
           console.log("Success:", data);
           //this.followers = data.data;
-          this.$store.commit('SET_FOLLOWERS', data.data)
+          this.$store.commit("SET_FOLLOWERS", data.data);
         })
         .catch((error) => {
           console.error("Error:", error);

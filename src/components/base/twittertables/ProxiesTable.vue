@@ -2,7 +2,9 @@
   <div>
     <base-material-card color="primary" class="px-5 py-3">
       <template v-slot:heading>
-        <div class="display-2 font-weight-light">Proxy List ({{ $store.state.proxies.length }})</div>
+        <div class="display-2 font-weight-light">
+          Proxy List ({{ $store.state.proxies.length }})
+        </div>
       </template>
       <v-card-text>
         <v-data-table
@@ -14,7 +16,6 @@
           show-select
           class="elevation-1"
         >
-        
           <template v-slot:[`item.proxy`]="{ item }">
             <v-icon sm color="primary"> mdi-wifi </v-icon>
             {{ item.proxy }}
@@ -80,8 +81,8 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Proxies:", data);          
-          this.$store.commit('SET_PROXIES', data.data)
+          console.log("Proxies:", data);
+          this.$store.commit("SET_PROXIES", data.data);
           //this.proxies = data.data;
         })
         .catch((error) => {
@@ -145,8 +146,7 @@ export default {
       ],
     };
   },
-  props: {
-  },
+  props: {},
 };
 </script>
 

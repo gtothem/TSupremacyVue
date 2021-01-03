@@ -1,6 +1,6 @@
 <template>
   <div>
-    <base-material-card color="primary" class="px-5 py-3">
+    <base-material-card color="primary" class="px-5 py-1">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">Console</div>
       </template>
@@ -15,14 +15,19 @@
           :itemsPerPage="-1"
           :hide-default-footer="true"
           item-key="index"
-          height="450px"
+          :height="tableHeight"
           fixed-header
         >
           <template v-slot:[`item.time`]="{ item }">
             <span>{{ new Date(item.time).toLocaleString() }}</span>
           </template>
           <template v-slot:[`item.status`]="{ item }">
-            <v-icon sm :color="formatColor(item.status)"> {{ formatStatus(item.status) }} </v-icon>
+            <v-icon v-if="item.status === 'Good'" sm color="primary">
+              mdi-check-circle
+            </v-icon>
+            <v-icon v-if="item.status === 'Bad'" sm color="red">
+              mdi-alert-circle
+            </v-icon>
             {{ item.status }}
           </template>
           <template v-slot:[`item.task`]="{ item }">
@@ -34,12 +39,23 @@
             >
           </template>
           <template v-slot:[`item.message`]="{ item }">
-            <small v-if="lenSize(item.message)">{{ item.message.substring(0, 100) }}</small>
-            <span v-if="!lenSize(item.message)">{{ item.message }}</span>
+            <span v-if="idTest(item.message)">
+              {{ formatMessage(item.message) }} (<a click="">{{
+                formatMessageM(item.message)
+              }}</a
+              >)
+            </span>
+            <span v-else>
+              <span v-if="item.message.length < 60">{{ item.message }}</span>
+              <span v-else>
+                <small>{{ item.message.substring(0, 100) }}</small>
+              </span>
+            </span>
           </template>
 
           <template v-slot:[`item.proxy`]="{ item }">
-            <country-flag :country="item.proxyCC" size="small" /> {{ item.proxy }}
+            <country-flag :country="item.proxyCC" size="small" />
+            {{ item.proxy }}
           </template>
         </v-data-table>
       </v-card-text>
@@ -53,31 +69,23 @@ export default {
   watch: {
     console: {
       handler: function () {
-        setTimeout(() => {
-          this.scrollBottom();
-        }, 100);
+        this.scrollBottom();
       },
       deep: true,
     },
   },
   methods: {
-    lenSize(m) {
-      if (m.length > 60) {
+    idTest(m) {
+      if (/\b\d{5}/g.test(m)) {
         return true;
       }
       return false;
     },
-    formatColor(s) {
-        if (s === "Bad") {
-            return "red";
-        }
-        return "primary"
+    formatMessage(m) {
+      return m.replace("(" + m.match(/\b\d+/g) + ")", "");
     },
-    formatStatus(s) {
-        if (s === "Bad") {
-            return "mdi-alert-circle";
-        }
-        return "mdi-check-circle"
+    formatMessageM(m) {
+      return m.match(/\b\d+/g)[0];
     },
     viewTask(t) {
       this.$router.push({
@@ -102,7 +110,7 @@ export default {
         .then((data) => {
           console.log("Console:", data);
           this.console = data.data;
-          this.$store.commit('SET_CONSOLE', data.data)
+          this.$store.commit("SET_CONSOLE", data.data);
           if (this.updating === true) {
             setTimeout(
               function (scope) {
@@ -144,6 +152,11 @@ export default {
       type: Number,
       default: 10,
       description: "Pagination Items Per Page",
+    },
+    tableHeight: {
+      type: String,
+      default: "360px",
+      description: "Datatable height",
     },
     reqBody: {
       type: String,

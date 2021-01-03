@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="center">
-      <!-- TASK MENU -->
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="mx-2" color="primary" v-bind="attrs" v-on="on">
@@ -62,44 +61,12 @@ export default {
         params: { taskName: action, taskMode: 'Schedule', accounts: this.selected },
       });
     },
-    OpenModal() {
-      if (this.showModal === false) {
-        this.showModal = true;
-      } else {
-        this.showModal = false;
-      }
-    },
   },
   created() {},
   data() {
     return {
-      accounts: this.data,
-      showModal: false,
-      menuItems: {
-        accounts: [{ title: "Add" }, { title: "Delete" }],
-      },
       items: {
-        accounts: [
-          {
-            title: "Tweet",
-            icon: "mdi-comment-edit",
-            subitems: [
-              { title: "Single", icon: "mdi-comment-edit" },
-              { title: "List", icon: "mdi-format-list-checks" },
-              { title: "Image", icon: "mdi-image" },
-            ],
-          },
-        ],
         tasks: [
-          {
-            title: "Tweet",
-            icon: "mdi-comment-edit",
-            subitems: [
-              { title: "Single", icon: "mdi-comment-edit" },
-              { title: "List", icon: "mdi-format-list-checks" },
-              { title: "Search", icon: "mdi-text-box-search" },
-            ],
-          },
           {
             title: "Retweet",
             icon: "mdi-twitter-retweet",
@@ -136,25 +103,11 @@ export default {
               { title: "Search", icon: "mdi-text-box-search" },
             ],
           },
-          {
-            title: "Unfollow",
-            icon: "mdi-account-multiple-minus",
-            subitems: [
-              { title: "Single", icon: "mdi-message-reply-text" },
-              { title: "List", icon: "mdi-format-list-checks" },
-              { title: "Filter", icon: "mdi-filter" },
-            ],
-          },
         ],
       },
     };
   },
   props: {
-    data: {
-      type: Array,
-      default: () => [],
-      description: "Table data",
-    },
     selected: {
       type: Array,
       default: () => [],

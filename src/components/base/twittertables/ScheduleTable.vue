@@ -1,12 +1,12 @@
 <template>
   <div>
-    <base-material-card color="primary" class="px-5 py-3">
+    <base-material-card color="primary" class="px-5 py-3" size="pa-4">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">
           Schedule List ({{ $store.state.schedules.length }})
         </div>
         <div class="subtitle-1 font-weight-light">
-          The Current Time: {{ theTime() }}
+          The Current Time: {{ theTime }}
         </div>
       </template>
       <v-card-text>
@@ -67,8 +67,11 @@ export default {
   components: { SchedulesToolbar, CountTimer },
   name: "schedule-table",
   methods: {
-    theTime() {
-      return new Date().toLocaleTimeString();
+    countDown() {
+      this.theTime = new Date().toLocaleTimeString();
+      this.timer = setTimeout(() => {
+        this.countDown();
+      }, 1000);
     },
     toTitleCase(str) {
       return str.replace(/\w\S*/g, function (txt) {
@@ -115,7 +118,7 @@ export default {
         .then((data) => {
           console.log("Success:", data);
           //this.schedules = data.data;
-          this.$store.commit('SET_SCHEDULES', data.data)
+          this.$store.commit("SET_SCHEDULES", data.data);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -143,11 +146,14 @@ export default {
   },
   created() {
     this.getScheduleAPI();
+    this.countDown();
   },
   data() {
     return {
       schedules: [],
       selected: [],
+      timer: null,
+      theTime: null,
       headers: [
         {
           text: "NAME",
@@ -161,7 +167,9 @@ export default {
       ],
     };
   },
-  props: {
+  props: {},
+  beforeDestroy() {
+    clearInterval(this.timer);
   },
 };
 </script>

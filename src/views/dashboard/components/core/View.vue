@@ -1,11 +1,10 @@
 <template>
-  <v-content>
+  <v-main>
     <router-view />
     
       <br/>
-      <br/>
     <dashboard-core-footer />
-  </v-content>
+  </v-main>
 </template>
 
 <script>

@@ -28,7 +28,7 @@ export default new Router({
           component: () => import('@/views/dashboard/Schedules'),
         },
         {
-          name: 'Task Builder',
+          name: 'TaskBuilder',
           path: 'pages/taskbuilder',
           component: () => import('@/views/dashboard/TaskBuilder'),
         },
@@ -48,7 +48,7 @@ export default new Router({
           component: () => import('@/views/dashboard/Proxies'),
         },
         {
-          name: 'User Profiles',
+          name: 'Profiles',
           path: 'pages/profiles',
           component: () => import('@/views/dashboard/Profiles'),
         },

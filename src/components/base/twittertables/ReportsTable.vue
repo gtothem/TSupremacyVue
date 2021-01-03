@@ -1,9 +1,12 @@
 <template>
   <div>
-    <base-material-card color="primary" class="px-5 py-3">
+    <base-material-card color="primary darken-2" class="px-5 py-3" size="pa-4">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">
-          Reports ({{ $store.state.reports.length }})
+          Task Reports ({{ $store.state.reports.length }})
+        </div>
+        <div class="subtitle-1 font-weight-light">
+          Last 24 Hours
         </div>
       </template>
       <v-card-text>

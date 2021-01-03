@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="center">
-      <!-- TASK MENU -->
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="mx-2" color="primary" v-bind="attrs" v-on="on">
@@ -40,7 +39,9 @@
         </v-list>
       </v-menu>
 
-      <v-btn color="primary" class="ml-2" @click="runSchedule('Tweet-Single')">Export</v-btn>
+      <v-btn color="primary" class="ml-2" @click="saveFile()"
+        >Export</v-btn
+      >
     </div>
   </div>
 </template>
@@ -50,65 +51,55 @@ export default {
   components: {},
   name: "friends-toolbar",
   methods: {
+    saveFile: function () {
+      const data = JSON.stringify(this.$store.state.friends);
+      const blob = new Blob([data], { type: "text/plain" });
+      const e = document.createEvent("MouseEvents"),
+        a = document.createElement("a");
+      a.download = "test.json";
+      a.href = window.URL.createObjectURL(blob);
+      a.dataset.downloadurl = ["text/json", a.download, a.href].join(":");
+      e.initEvent(
+        "click",
+        true,
+        false,
+        window,
+        0,
+        0,
+        0,
+        0,
+        0,
+        false,
+        false,
+        false,
+        false,
+        0,
+        null
+      );
+      a.dispatchEvent(e);
+    },
     runTask(action) {
       this.$router.push({
         name: "TaskBuilder",
-        params: { taskName: action, taskMode: 'Now', accounts: this.selected },
+        params: { taskName: action, taskMode: "Now", accounts: this.selected },
       });
     },
     runSchedule(action) {
       this.$router.push({
         name: "TaskBuilder",
-        params: { taskName: action, taskMode: 'Schedule', accounts: this.selected },
+        params: {
+          taskName: action,
+          taskMode: "Schedule",
+          accounts: this.selected,
+        },
       });
-    },
-    OpenModal() {
-      if (this.showModal === false) {
-        this.showModal = true;
-      } else {
-        this.showModal = false;
-      }
     },
   },
   created() {},
   data() {
     return {
-      accounts: this.data,
-      showModal: false,
-      menuItems: {
-        accounts: [{ title: "Add" }, { title: "Delete" }],
-      },
       items: {
-        accounts: [
-          {
-            title: "Tweet",
-            icon: "mdi-comment-edit",
-            subitems: [
-              { title: "Single", icon: "mdi-comment-edit" },
-              { title: "List", icon: "mdi-format-list-checks" },
-              { title: "Image", icon: "mdi-image" },
-            ],
-          },
-        ],
         tasks: [
-          {
-            title: "Tweet",
-            icon: "mdi-comment-edit",
-            subitems: [
-              { title: "Single", icon: "mdi-comment-edit" },
-              { title: "List", icon: "mdi-format-list-checks" },
-              { title: "Search", icon: "mdi-text-box-search" },
-            ],
-          },
-          {
-            title: "Retweet",
-            icon: "mdi-twitter-retweet",
-            subitems: [
-              { title: "Single", icon: "mdi-twitter-retweet" },
-              { title: "List", icon: "mdi-format-list-checks" },
-              { title: "Search", icon: "mdi-text-box-search" },
-            ],
-          },
           {
             title: "Reply",
             icon: "mdi-message-reply-text",
@@ -150,11 +141,6 @@ export default {
     };
   },
   props: {
-    data: {
-      type: Array,
-      default: () => [],
-      description: "Table data",
-    },
     selected: {
       type: Array,
       default: () => [],

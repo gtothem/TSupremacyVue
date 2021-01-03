@@ -8,15 +8,13 @@
         </span>
       </template>
       <v-card-text>
-        <v-row>
-          <v-col>
             <v-data-table
               dense
               :headers="headers"
               :items="$store.state.actions"
               item-key="id"
-              class="elevation-1"
-              :itemsPerPage="15"
+              class="elevation-1 pt-2"
+              :itemsPerPage="itemsPerPage"
               :hide-default-footer="false"
               fixed-header
             >
@@ -36,8 +34,6 @@
                 <span>{{ new Date(item.time).toLocaleString() }}</span>
               </template>
             </v-data-table>
-          </v-col>
-        </v-row>
       </v-card-text>
     </base-material-card>
   </div>
@@ -46,7 +42,7 @@
 <script>
 export default {
   components: { },
-  name: "activity-table",
+  name: "activityfull-table",
   methods: {
     viewTask(t) {
       console.log(t);
@@ -127,6 +123,11 @@ export default {
       type: Object,
       default: () => [],
       description: "User data",
+    },
+    itemsPerPage: {
+      type: Number,
+      default: 10,
+      description: "Pagination Items Per Page",
     },
   },
 };

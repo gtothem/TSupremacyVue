@@ -11,7 +11,7 @@ export default new Vuex.Store({
     drawer: null,
     token: null,
     accounts: [],
-    console: [],    
+    console: [],
     proxies: [],
     reports: [],
     schedules: [],
@@ -19,7 +19,7 @@ export default new Vuex.Store({
     followers: [],
     statuses: [],
     actions: [],
-    tasks: [],
+    tasks: []
   },
   mutations: {
     SET_BAR_IMAGE(state, payload) {
@@ -30,18 +30,22 @@ export default new Vuex.Store({
     },
     SET_ACCOUNTS(state, payload) {
       state.accounts = payload;
+      localStorage.setItem("storedData", JSON.stringify(this.state));
     },
     SET_CONSOLE(state, payload) {
       state.console = payload;
     },
     SET_PROXIES(state, payload) {
       state.proxies = payload;
+      localStorage.setItem("storedData", JSON.stringify(this.state));
     },
     SET_REPORTS(state, payload) {
       state.reports = payload;
+      localStorage.setItem("storedData", JSON.stringify(this.state));
     },
     SET_SCHEDULES(state, payload) {
       state.schedules = payload;
+      localStorage.setItem("storedData", JSON.stringify(this.state));
     },
     SET_FRIENDS(state, payload) {
       state.friends = payload;
@@ -57,6 +61,11 @@ export default new Vuex.Store({
     },
     SET_TASKS(state, payload) {
       state.tasks = payload;
+    },
+    GET_LOCAL() {
+      this.replaceState(
+        Object.assign(this.state, JSON.parse(localStorage.getItem("storedData")))
+      );
     }
   },
   actions: {}

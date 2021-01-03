@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <hr />
+    <hr class="style-two" />
     <br />
     <v-row align="center" no-gutters>
       <v-col class="text-center mb-sm-0 mb-5" cols="auto"> </v-col>
@@ -30,5 +30,12 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+}
+/* Gradient transparent - color - transparent */
+
+hr.style-two {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.70), rgba(0, 0, 0, 0));
 }
 </style>

@@ -1,19 +1,29 @@
 <template>
   <div>
-    <base-material-card color="primary" class="px-5 py-3">
+    <base-material-card color="primary" class="px-5 py-3" size="pa-5">
       <template v-slot:heading>
-        <v-icon sm> mdi-account-group</v-icon>
-        <span class="display-2 font-weight-light ml-2">
-          Friends List ({{ $store.state.friends.length }})
-        </span>
-        <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
+        <v-row>
+          <v-col cols="auto">
+            <v-icon sm class="ml-2"> mdi-account-group</v-icon>
+            <span class="display-2 font-weight-light ml-2">
+              Friends List ({{ $store.state.friends.length }})
+            </span>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              single-line
+              hide-details
+              style="display: inline;"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="auto">
+              <v-btn small outlined rounded>Filters</v-btn>
+          </v-col>
+        </v-row>
       </template>
       <v-card-text>
         <v-data-table
@@ -27,8 +37,7 @@
           :search="search"
         >
           <template v-slot:[`item.user`]="{ item }">
-              <a href="#" style="text-decoration: none;">
-            {{ item.user }}</a>
+            <a href="#" style="text-decoration: none"> {{ item.user }}</a>
           </template>
         </v-data-table>
       </v-card-text>
@@ -65,7 +74,7 @@ export default {
         .then((data) => {
           console.log("Success:", data);
           //this.friends = data.data;
-          this.$store.commit('SET_FRIENDS', data.data)
+          this.$store.commit("SET_FRIENDS", data.data);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -77,7 +86,6 @@ export default {
   },
   data() {
     return {
-      friends:[],
       selected: [],
       search: "",
       headers: [
@@ -108,17 +116,4 @@ export default {
 </script>
 
 <style scoped>
-.center {
-  margin: auto;
-  width: 90%;
-  border: 0px solid rgb(0, 77, 128);
-  padding: 10px;
-}
-button {
-  margin: 0 0.5rem 0 0;
-}
-.blue {
-  color: dodgerblue;
-  margin-right: 0.2rem;
-}
 </style>

@@ -1,10 +1,38 @@
 <template>
   <div v-if="user">
-    <base-material-card color="primary" class="px-5 py-3">
+    <base-material-card color="primary" class="px-5 py-3" size="pa-4">
       <template v-slot:heading>
         <v-row no-gutters>
           <v-col cols="auto" :key="1">
-            <h2 class="mt-5">{{ user.username }}</h2>
+            <v-menu offset-y>
+              <template v-slot:activator="{ on, attrs }">
+                <a v-bind="attrs" v-on="on">
+                    
+                  <h2 class="mt-5 white--text">
+                      <v-avatar size="35px" class="mr-2">
+                      <img :src="user.picture" alt="" />
+                    </v-avatar>
+                    {{ user.username
+                    }}<v-icon sm color="white"> mdi-menu-down</v-icon>
+                  </h2></a
+                >
+              </template>
+              <v-list>
+                <v-list-item
+                  v-for="(a, index) in $store.state.accounts"
+                  :key="index"
+                  @click="viewProfile(a)"
+                  class="tile"
+                >
+                  <v-list-item-title>
+                    <v-avatar size="30px" class="mr-2">
+                      <img :src="a.picture" alt="" />
+                    </v-avatar>
+                    {{ a.username }}</v-list-item-title
+                  >
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-col>
           <v-col cols="auto" :key="2">
             <v-tabs
@@ -17,7 +45,7 @@
               <v-tabs-slider></v-tabs-slider>
 
               <v-tab href="#tab-1" class="mx-2">
-                Activity ({{ stats.actions }})
+                Activity ({{ $store.state.actions.length }})
                 <v-icon sm> mdi-bell-ring</v-icon>
               </v-tab>
 
@@ -41,7 +69,10 @@
       </template>
       <v-tabs-items v-model="tab">
         <v-tab-item :key="1" :value="'tab-1'">
-          <activity :user="user" />
+          <v-row>
+            <v-col> <activity :user="user" /> </v-col>
+            <v-col> <task-timeline /> </v-col>
+          </v-row>
         </v-tab-item>
         <v-tab-item :key="2" :value="'tab-2'">
           <friends :user="user" />
@@ -62,19 +93,35 @@ import Friends from "../../components/base/twittertables/FriendsTable.vue";
 import Followers from "../../components/base/twittertables/FollowersTable.vue";
 import Statuses from "../../components/base/twittertables/StatusesTable.vue";
 import Activity from "../../components/base/twittertables/ActivityTable.vue";
+import TaskTimeline from "../../components/base/twittertables/TaskTimeline.vue";
 export default {
-  components: { Friends, Followers, Statuses, Activity },
+  components: { Friends, Followers, Statuses, Activity, TaskTimeline },
   name: "profiles-page",
   created() {
-    this.user = this.$route.params.profile;
+    if (this.$route.params.profile) {
+      this.user = this.$route.params.profile;
+    } else {
+      this.user = this.$store.state.accounts[0];
+    }
     this.getStats(this.user.username);
   },
   methods: {
+    viewProfile(p) {
+      console.log(p);
+      this.user = p;
+      this.getStats(this.user.username);
+      //this.$router.go(0);
+    },
     getStats(id) {
-      this.stats.actions = this.$store.state.actions.length;
-      this.stats.friends = this.$store.state.accounts.find((x) => x.username === id).friends;
-      this.stats.followers = this.$store.state.accounts.find((x) => x.username === id).followers;
-      this.stats.statuses = this.$store.state.accounts.find((x) => x.username === id).statuses;
+      this.stats.friends = this.$store.state.accounts.find(
+        (x) => x.username === id
+      ).friends;
+      this.stats.followers = this.$store.state.accounts.find(
+        (x) => x.username === id
+      ).followers;
+      this.stats.statuses = this.$store.state.accounts.find(
+        (x) => x.username === id
+      ).statuses;
     },
   },
   data() {
@@ -84,7 +131,6 @@ export default {
       singleSelect: false,
       selected: [],
       stats: {
-        actions: 0,
         friends: 0,
         followers: 0,
         statuses: 0,

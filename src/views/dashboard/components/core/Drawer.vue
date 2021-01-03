@@ -6,7 +6,7 @@
     :expand-on-hover="expandOnHover"
     :right="$vuetify.rtl"
     :src="barImage"
-    mobile-break-point="960"
+    mobile-breakpoint="960"
     app
     width="260"
     v-bind="$attrs"
@@ -127,9 +127,9 @@
           to: '/pages/proxies',
         },
         {
-          icon: 'mdi-file-chart',
-          title: 'reports',
-          to: '/pages/reports',
+          icon: 'mdi-account-details-outline',
+          title: 'Profiles',
+          to: '/pages/profiles',
         },
         {
           icon: 'mdi-console-line',

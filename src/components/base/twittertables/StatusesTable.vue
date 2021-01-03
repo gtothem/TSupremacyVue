@@ -1,19 +1,29 @@
 <template>
   <div>
-    <base-material-card color="primary" class="px-5 py-3">
+    <base-material-card color="primary" class="px-5 py-3" size="pa-5">
       <template v-slot:heading>
-        <v-icon sm> mdi-account-group</v-icon>
-        <span class="display-2 font-weight-light ml-2">
-          Statuses List ({{ $store.state.statuses.length }})
-        </span>
-        <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
+        <v-row>
+          <v-col cols="auto">
+            <v-icon sm> mdi-account-group</v-icon>
+            <span class="display-2 font-weight-light ml-2">
+              Statuses List ({{ $store.state.statuses.length }})
+            </span>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              single-line
+              hide-details
+              style="display: inline"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="auto">
+              <v-btn small outlined rounded>Filters</v-btn>
+          </v-col>
+        </v-row>
       </template>
       <v-card-text>
         <v-data-table
@@ -26,15 +36,16 @@
           class="elevation-1"
           :search="search"
         >
-        <template v-slot:[`item.created`]="{ item }">
+          <template v-slot:[`item.created`]="{ item }">
             <span>{{ new Date(item.created).toLocaleString() }}</span>
           </template>
-          
+
           <template v-slot:[`item.fullText`]="{ item }">
-              <small v-if="lenSize(item.fullText)">{{ item.fullText.substring(0, 180) }}</small>
+            <small v-if="lenSize(item.fullText)">{{
+              item.fullText.substring(0, 180)
+            }}</small>
             <span v-if="!lenSize(item.fullText)">{{ item.fullText }}</span>
           </template>
-            
         </v-data-table>
       </v-card-text>
 
@@ -76,7 +87,7 @@ export default {
         .then((data) => {
           console.log("Statuses:", data);
           //this.friends = data.data;
-          this.$store.commit('SET_STATUSES', data.data)
+          this.$store.commit("SET_STATUSES", data.data);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -88,7 +99,7 @@ export default {
   },
   data() {
     return {
-      statuses:[],
+      statuses: [],
       selected: [],
       search: "",
       headers: [

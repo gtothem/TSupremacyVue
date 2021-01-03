@@ -24,6 +24,7 @@
          - {{ item.id }}</span
       >
     </base-material-alert>
+    
     <accounts :updating="updating" />
     <br />
     <console reqBody="%" :updating="updating" />

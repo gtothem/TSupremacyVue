@@ -51,35 +51,31 @@ export default {
     
 
     convertTaskSettings(obj) {
-        let keys = Object.keys(obj);
-        keys.forEach(function (key) {
-            let value = obj[key];
-            if (typeof value === "number") {
-                obj[key] = value.toString();
+        Object.keys(obj).forEach(function (key) {
+            if (typeof obj[key] === "number") {
+                obj[key] = obj[key].toString();
             }
-            if (typeof value === "boolean") {
-                obj[key] = value.toString();
+            if (typeof obj[key] === "boolean") {
+                obj[key] = obj[key].toString();
             }
-            if (value === null) {
+            if (obj[key] === null) {
                 delete obj[key];
             }
         });
     },
 
     stripUser(obj) {
-        var keys = Object.keys(obj);
-        keys.forEach(function (key) {
-            var value = obj[key];
-            if (value === null) {
+        Object.keys(obj).forEach(function (key) {
+            if (obj[key] === null) {
                 delete obj[key];
             }
         });
     },
 
     stripUserList() {
-        for (var key in this.data.UserList) {
+        for (let key in this.data.UserList) {
             this.data.UserList[key].id = Number(this.data.UserList[key].id);
-            for (var user in this.data.UserList[key]) {
+            for (let user in this.data.UserList[key]) {
                 if (user !== 'id' && user !== 'username') {
                     delete this.data.UserList[key][user];
                 }
@@ -90,8 +86,8 @@ export default {
     stripDataList() {
         //console.log(this.data.DataList);
         let tmpArr = [];
-        for (var key in this.data.DataList) {
-            for (var sched in this.data.DataList[key]) {
+        for (let key in this.data.DataList) {
+            for (let sched in this.data.DataList[key]) {
                 if (sched === 'id') {
                     tmpArr.push(this.data.DataList[key][sched]);
                 }
@@ -104,8 +100,8 @@ export default {
     stripDataListProxy() {
         //console.log(this.data.DataList);
         let tmpArr = [];
-        for (var key in this.data.DataList) {
-            for (var sched in this.data.DataList[key]) {
+        for (let key in this.data.DataList) {
+            for (let sched in this.data.DataList[key]) {
                 if (sched === 'proxy') {
                     tmpArr.push(this.data.DataList[key][sched]);
                 }
