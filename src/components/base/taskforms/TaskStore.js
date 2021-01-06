@@ -18,12 +18,17 @@ export default {
             message: null,
             listOrder: null,
             count: null,
+            countRange: null,
             searchTerm: null,
             searchType: null,
             likeChance: null,
             replyChance: null,
             retweetChance: null,
             followChance: null,
+            likeUserChance: null,
+            replyUserChance: null,
+            likeUserCount: null,
+            replyUserCount: null,
             scheduleName: null,
             message: null,
             targetId: null,
@@ -51,6 +56,16 @@ export default {
     
 
     convertTaskSettings(obj) {
+        if (this.data.TaskSettings.countRange != null) {
+            this.data.TaskSettings.count = this.data.TaskSettings.countRange.join('-');
+            this.data.TaskSettings.countRange = null;
+        }
+        if (this.data.TaskSettings.likeUserCount != null) {
+            this.data.TaskSettings.likeUserCount = this.data.TaskSettings.likeUserCount.join('-');
+        }
+        if (this.data.TaskSettings.replyUserCount != null) {
+            this.data.TaskSettings.replyUserCount = this.data.TaskSettings.replyUserCount.join('-');
+        }
         Object.keys(obj).forEach(function (key) {
             if (typeof obj[key] === "number") {
                 obj[key] = obj[key].toString();
@@ -118,22 +133,29 @@ export default {
             TaskSize: 1,
             TaskSettings: {
                 nowCheckbox: null,
+                everyCheckbox: null,
+                onceCheckbox: null,
                 betweenCheckbox: null,
                 onceDate: null,
                 onceTime: null,
                 minutes: null,
                 randomness: null,
-                betweenTimeOne: null,
-                betweenTimeTwo: null,
+                startTime: null,
+                endTime: null,
                 message: null,
                 listOrder: null,
                 count: null,
+                countRange: null,
                 searchTerm: null,
                 searchType: null,
                 likeChance: null,
                 replyChance: null,
                 retweetChance: null,
                 followChance: null,
+                likeUserChance: null,
+                replyUserChance: null,
+                likeUserCount: null,
+                replyUserCount: null,
                 scheduleName: null,
                 message: null,
                 targetId: null,
@@ -143,6 +165,7 @@ export default {
                 listRandom: null,
             },
             User: {
+                userid: null,
                 username: null,
                 password: null,
                 email: null,
@@ -151,7 +174,8 @@ export default {
                 proxy: null,
                 proxyuser: null,
                 proxypass: null,
-                phone: null,},
+                phone: null,
+            },
             ImageList: [],
             DataList: [],
             UserList: [],

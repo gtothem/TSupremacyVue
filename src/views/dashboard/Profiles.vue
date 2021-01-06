@@ -1,6 +1,6 @@
 <template>
   <div v-if="user">
-    <base-material-card color="primary" class="px-5 py-3" size="pa-4">
+    <base-material-card color="primary" class="px-5 py-3 elevation-6" size="pa-4">
       <template v-slot:heading>
         <v-row no-gutters>
           <v-col cols="auto" :key="1">

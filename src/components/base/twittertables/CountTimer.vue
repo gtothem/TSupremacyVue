@@ -30,7 +30,7 @@ export default {
       if (minutes > 0) {
         this.countDown += minutes + "m ";
       }
-      this.countDown += seconds + "s ";
+      this.countDown += seconds + "s";
 
       if (this.distance > 0) {
         this.timer = setTimeout(() => {

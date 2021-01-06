@@ -28,16 +28,16 @@
       >Configure settings</v-stepper-step
     >
     <v-stepper-content step="2">
-      <!-- Task Forms -->
-      <v-text-field
-        v-if="this.$route.params.taskMode === 'Schedule'"
-        v-model="storedItems.TaskSettings.scheduleName"
-        label="Schedule Name"
-        required
-        style="width: 300px"
-      ></v-text-field>
-      <task-form v-if="hideBind" :task="this.$route.params.taskName" />
-
+      <div class="ml-2">
+        <v-text-field
+          v-if="this.$route.params.taskMode === 'Schedule'"
+          v-model="storedItems.TaskSettings.scheduleName"
+          label="Schedule Name"
+          required
+          style="width: 300px"
+        ></v-text-field>
+        <task-form v-if="hideBind" :task="this.$route.params.taskName" />
+      </div>
       <v-btn
         color="primary"
         @click="
@@ -108,13 +108,20 @@ export default {
   },
   methods: {
     summary() {
-      console.log(this.storedItems.TaskSettings.count);
-      if (this.storedItems.TaskSettings.count !== null) {
-        this.storedItems.TaskSize =
-          this.storedItems.TaskSettings.count *
-          this.storedItems.UserList.length;
-      }
       TaskStore.convertTaskSettings(this.storedItems.TaskSettings);
+      console.log(this.storedItems.TaskSettings.count);
+      console.log(this.storedItems.TaskSize);
+      if (this.storedItems.TaskSettings.count != null) {
+        if (Object.values(this.storedItems.TaskSettings.count).includes("-")) {
+          this.storedItems.TaskSize =
+            this.storedItems.TaskSettings.count.split("-")[1] *
+            this.storedItems.UserList.length;
+        } else {
+          this.storedItems.TaskSize =
+            this.storedItems.TaskSettings.count *
+            this.storedItems.UserList.length;
+        }
+      }
       this.e6 = 4;
     },
     async runTaskAPI() {

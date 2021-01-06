@@ -152,7 +152,7 @@
       <v-col cols="12" sm="6" lg="3">
         <base-material-stats-card
           color="primary darken-2"
-          icon="mdi-twitter"
+          icon="mdi-account-group"
           title="Friends"
           :value="'+' + friends"
           sub-icon="mdi-clock"
@@ -163,7 +163,7 @@
       <v-col cols="12" sm="6" lg="3">
         <base-material-stats-card
           color="primary"
-          icon="mdi-twitter"
+          icon="mdi-account-multiple-plus"
           title="Followers"
           :value="'+' + followers"
           sub-icon="mdi-clock"
@@ -185,7 +185,7 @@
       <v-col cols="12" sm="6" lg="3">
         <base-material-stats-card
           color="primary darken-2"
-          icon="mdi-thumb-up"
+          icon="mdi-thumb-up-outline"
           title="Liked"
           :value="'+' + liked"
           sub-icon="mdi-clock"
@@ -193,11 +193,11 @@
         />
       </v-col>
 
-      <v-col cols="12" md="6">
+      <v-col cols="12" sm="12" lg="6">
         <reports :itemsPerPage="10" />
       </v-col>
 
-      <v-col cols="12" md="6">
+      <v-col cols="12" sm="12" lg="6">
           <activity-full-table :user="$store.state.accounts[0]"  :itemsPerPage=10 />
       </v-col>
     </v-row>

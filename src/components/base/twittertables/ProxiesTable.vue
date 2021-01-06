@@ -1,6 +1,6 @@
 <template>
   <div>
-    <base-material-card color="primary" class="px-5 py-3">
+    <base-material-card color="primary" class="px-5 py-3 elevation-6">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">
           Proxy List ({{ $store.state.proxies.length }})
@@ -64,7 +64,7 @@ export default {
             function (scope) {
               scope.getProxiesAPI();
             },
-            1000,
+            1500,
             this
           );
           return "mdi-alert-circle";
@@ -99,7 +99,13 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log("Success:", data);
-          this.getProxiesAPI();
+          setTimeout(
+            function (scope) {
+              scope.getProxiesAPI();
+            },
+            1000,
+            this
+          );
         })
         .catch((error) => {
           console.error("Error:", error);

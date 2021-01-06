@@ -1,6 +1,6 @@
 <template>
   <div>
-    <base-material-card color="primary" class="px-5 py-3">
+    <base-material-card color="primary" class="px-5 py-3 ">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">
           Accounts ({{ $store.state.accounts.length }})
@@ -57,7 +57,7 @@
                 <strong>{{ Math.ceil(calc(item.status)) }}%</strong>
               </v-progress-linear>
             </span>
-            <span v-if="!item.status.includes('/')">
+            <span v-else>
               <v-icon sm color="primary"> mdi-check-circle </v-icon>
               {{ item.status }}
             </span>

@@ -79,6 +79,10 @@ export default {
   },
   created() {
       console.log(this.task);
+      if (this.task === "Sync-Update") {
+      console.log('taskseize');
+          this.storedItems.TaskSize = 6;
+      }
   },
   data: () => ({
     storedItems: TaskStore.data,

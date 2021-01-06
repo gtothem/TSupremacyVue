@@ -31,18 +31,25 @@
             {{ item.status }}
           </template>
           <template v-slot:[`item.task`]="{ item }">
-            <a
-              @click="viewTask(item.task)"
-              class="ml-1"
-              style="text-decoration: none"
-              >{{ item.task }}</a
-            >
+            <a @click="viewTask(item.task)" class="ml-1">{{ item.task }}</a>
           </template>
           <template v-slot:[`item.message`]="{ item }">
             <span v-if="idTest(item.message)">
-              {{ formatMessage(item.message) }} (<a click="">{{
-                formatMessageM(item.message)
-              }}</a
+              {{ formatMessage(item.message) }} (<a
+                v-if="item.message.includes('Followed ')"
+                :href="'https://twitter.com/' + formatMessageU(item.message)"
+                target="_blank"
+                >{{ formatMessageM(item.message) }}</a
+              ><a
+                v-if="!item.message.includes('Followed ')"
+                :href="
+                  'https://twitter.com/' +
+                  formatMessageU(item.message) +
+                  '/status/' +
+                  formatMessageM(item.message)
+                "
+                target="_blank"
+                >{{ formatMessageM(item.message) }}</a
               >)
             </span>
             <span v-else>
@@ -87,6 +94,9 @@ export default {
     formatMessageM(m) {
       return m.match(/\b\d+/g)[0];
     },
+    formatMessageU(m) {
+      return m.match(/(?<=ed\ )(.*?)(?=\ *\()/g)[0];
+    },
     viewTask(t) {
       this.$router.push({
         name: "Task View",
@@ -94,8 +104,8 @@ export default {
       });
     },
     scrollBottom() {
-      var table = this.$refs["consoleTable"];
-      var wrapper = table.$el.querySelector("div.v-data-table__wrapper");
+      let table = this.$refs["consoleTable"];
+      let wrapper = table.$el.querySelector("div.v-data-table__wrapper");
       wrapper.scrollTop = wrapper.scrollHeight;
     },
     async getConsoleAPI() {
@@ -173,4 +183,7 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 </style>

@@ -1,9 +1,8 @@
 <template>
-  <div>
     <div class="center">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn class="mx-2" color="primary" v-bind="attrs" v-on="on">
+          <v-btn rounded class="mx-2" color="primary" v-bind="attrs" v-on="on">
             Tasks
           </v-btn>
         </template>
@@ -39,11 +38,10 @@
         </v-list>
       </v-menu>
 
-      <v-btn color="primary" class="ml-2" @click="saveFile()"
+      <v-btn rounded color="primary" class="ml-2" @click="saveFile()"
         >Export</v-btn
       >
     </div>
-  </div>
 </template>
 
 <script>

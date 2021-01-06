@@ -1,6 +1,6 @@
 <template>
   <div>
-    <base-material-card color="primary" class="px-5 py-3" size="pa-4">
+    <base-material-card color="primary" class="px-5 py-3 elevation-6" size="pa-4">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">
           Schedule List ({{ $store.state.schedules.length }})

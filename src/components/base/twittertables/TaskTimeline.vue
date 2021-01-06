@@ -24,7 +24,7 @@
                     >
                     <div class="caption">
                       <span v-if="item.name.includes('Search')">
-                        {{ item.taskItem.taskSettings.searchTerm }} -
+                        <i>{{ item.taskItem.taskSettings.searchTerm }}</i> -
                       </span>
                       {{ item.taskGood }} / {{ item.taskTotal }}
                     </div>

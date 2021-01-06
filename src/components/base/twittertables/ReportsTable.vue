@@ -2,9 +2,10 @@
   <div>
     <base-material-card color="primary darken-2" class="px-5 py-3" size="pa-4">
       <template v-slot:heading>
-        <div class="display-2 font-weight-light">
+        <v-icon sm> mdi-twitter</v-icon>
+        <span class="display-2 font-weight-light">
           Task Reports ({{ $store.state.reports.length }})
-        </div>
+        </span>
         <div class="subtitle-1 font-weight-light">
           Last 24 Hours
         </div>

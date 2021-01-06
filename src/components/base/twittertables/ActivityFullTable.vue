@@ -1,39 +1,45 @@
 <template>
   <div>
-    <base-material-card color="primary" class="px-5 py-3" size="pa-6">
+    <base-material-card color="primary" class="px-5 py-3" size="pa-4">
       <template v-slot:heading>
         <v-icon sm> mdi-bell-ring</v-icon>
         <span class="display-2 font-weight-light ml-2">
           Activity List ({{ $store.state.actions.length }})
         </span>
+        <div class="subtitle-1 font-weight-light">
+          Last 24 Hours
+        </div>
       </template>
       <v-card-text>
-            <v-data-table
-              dense
-              :headers="headers"
-              :items="$store.state.actions"
-              item-key="id"
-              class="elevation-1 pt-2"
-              :itemsPerPage="itemsPerPage"
-              :hide-default-footer="false"
-              fixed-header
-            >
-              <template v-slot:[`item.action`]="{ item }">
-                <v-icon sm color="primary" class="pr-2"
-                  >{{ formatAction(item.action) }}
-                </v-icon>
-                <span>{{ item.action }}</span>
-              </template>
-              <template v-slot:[`item.user`]="{ item }">
-                <a href="#">{{ item.user }}</a>
-              </template>
-              <template v-slot:[`item.id`]="{ item }">
-                <a href="#">{{ item.id }}</a>
-              </template>
-              <template v-slot:[`item.time`]="{ item }">
-                <span>{{ new Date(item.time).toLocaleString() }}</span>
-              </template>
-            </v-data-table>
+        <v-data-table
+          dense
+          :headers="headers"
+          :items="$store.state.actions"
+          item-key="id"
+          class="elevation-1 pt-2"
+          :itemsPerPage="itemsPerPage"
+          :hide-default-footer="false"
+          fixed-header
+        >
+          <template v-slot:[`item.account`]="{ item }">
+            <a @click="viewProfile(item.account)">{{ item.account }}</a>
+          </template>
+          <template v-slot:[`item.action`]="{ item }">
+            <v-icon sm color="primary" class="pr-2"
+              >{{ formatAction(item.action) }}
+            </v-icon>
+            <span>{{ item.action }}</span>
+          </template>
+          <template v-slot:[`item.user`]="{ item }">
+            <a href="#">{{ item.user }}</a>
+          </template>
+          <template v-slot:[`item.id`]="{ item }">
+            <a href="#">{{ item.id }}</a>
+          </template>
+          <template v-slot:[`item.time`]="{ item }">
+            <small>{{ new Date(item.time).toLocaleString() }}</small>
+          </template>
+        </v-data-table>
       </v-card-text>
     </base-material-card>
   </div>
@@ -41,14 +47,16 @@
 
 <script>
 export default {
-  components: { },
+  components: {},
   name: "activityfull-table",
   methods: {
-    viewTask(t) {
-      console.log(t);
+    viewProfile(p) {
+      console.log(p);
       this.$router.push({
-        name: "Task View",
-        params: { taskId: t },
+        name: "Profiles",
+        params: {
+          profile: p,
+        },
       });
     },
     formatAction(action) {
@@ -72,7 +80,7 @@ export default {
     async getActivityAPI() {
       fetch("https://localhost:44396/TwitterBot/Actions", {
         method: "POST",
-        body: this.user.userId,
+        body: "%",
         credentials: "include",
         headers: { "Content-type": "application/json; charset=UTF-8" },
       })
@@ -90,13 +98,13 @@ export default {
         });
     },
   },
-  watch:  {
+  watch: {
     user: {
       handler: function () {
-          this.getActivityAPI();
+        this.getActivityAPI();
       },
       deep: true,
-    },    
+    },
   },
   created() {
     if (!this.user) {
@@ -108,10 +116,11 @@ export default {
     return {
       headers: [
         {
-          text: "ACTION",
+          text: "ACCOUNT",
           align: "start",
-          value: "action",
+          value: "account",
         },
+        { text: "ACTION", value: "action" },
         { text: "USER", value: "user" },
         { text: "ID", value: "id" },
         { text: "TIME", value: "time" },
