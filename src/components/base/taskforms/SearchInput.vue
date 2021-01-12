@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row no-gutters>
-      <v-col cols="4" flat color="transparent">
+      <v-col cols="auto">
         <v-text-field
           v-model="storedItems.TaskSettings.searchTerm"
           color="primary"
@@ -9,6 +9,16 @@
           prepend-icon="mdi-comment-search"
           style="width: 300px"
         />
+      </v-col>
+      <v-col cols="auto">
+        <v-combobox
+          v-model="storedItems.TaskSettings.searchType"
+          :items="items"
+          solo
+          dense
+          class="ml-2 mt-2"
+          style="width: 80px"
+        ></v-combobox>
       </v-col>
     </v-row>
 
@@ -42,7 +52,7 @@
           :max="max"
           :min="min"
           hide-details
-          class="align-center"
+          class="align-center mt-2"
           style="width: 300px"
         >
           <template v-slot:prepend>
@@ -69,7 +79,7 @@
           </template>
         </v-range-slider>
       </v-col>
-      <v-col>
+      <v-col cols="auto">
         <v-checkbox
           v-model="rangeCount"
           hide-details
@@ -79,17 +89,35 @@
     </v-row>
     <chance-slider :task="task" mode="Single" />
     <v-row>
-      <v-switch
-        v-model="additonalSwitch"
-        label="Additional Options"
-        class="ml-4"
-      ></v-switch>
+      <v-col cols="auto">
+        <v-switch
+          v-model="additonalSwitch"
+          label="Additional Options"
+          class="ml-4"
+        ></v-switch>
+      </v-col>
+      <v-col cols="auto">
+        <v-switch
+          v-model="searchFilter"
+          label="Filters"
+          class="ml-4"
+        ></v-switch>
+      </v-col>
+      <v-col cols="auto">
+        <v-switch
+          v-if="storedItems.UserList.length > 1"
+          name="splitSwitch"
+          v-model="storedItems.TaskSettings.listSplit"
+          label="Split"
+          class="ml-4"
+        ></v-switch
+      ></v-col>
     </v-row>
     <div v-if="additonalSwitch" class="ml-4">
-      <span class="caption grey--text font-weight-light mx-2"
-        >Actions to be run on the Tweet after the main Action</span
-      >
-      <chance-slider :task="task" mode="Multi" />
+      <chance-slider :task="task" mode="Multi" class="mb-2" />
+    </div>
+    <div v-if="searchFilter" class="ml-4">
+      <search-filters :task="task" mode="Multi" />
     </div>
   </div>
 </template>
@@ -97,8 +125,9 @@
 <script>
 import TaskStore from "./TaskStore";
 import ChanceSlider from "./ChanceSlider";
+import SearchFilters from "./SearchFilters";
 export default {
-  components: { ChanceSlider },
+  components: { ChanceSlider, SearchFilters },
   name: "search-input",
   methods: {},
   watch: {
@@ -126,6 +155,7 @@ export default {
     },
   },
   created() {
+    this.storedItems.TaskSettings.searchType = "Top";
     this.storedItems.TaskSettings.likeChance = "0";
     this.storedItems.TaskSettings.replyChance = "0";
     this.storedItems.TaskSettings.retweetChance = "0";
@@ -153,6 +183,8 @@ export default {
     max: 100,
     additonalSwitch: false,
     rangeCount: false,
+    searchFilter: false,
+    items: ["Top", "All"],
   }),
   props: {
     task: {

@@ -9,13 +9,14 @@
       </template>
       <v-card-text>
         <v-row>
-          <v-col style="overflow-y: auto; height:595px">
+          <v-col style="overflow-y: auto; height: 595px">
             <v-timeline align-top dense>
               <v-timeline-item
                 v-for="(item, index) in $store.state.tasks"
                 :key="item.id"
                 :color="'primary ' + colorSwitch((index % 2) + 1)"
                 :icon="formatTask(item.name)"
+                :search="search"
               >
                 <v-row>
                   <v-col>
@@ -24,7 +25,7 @@
                     >
                     <div class="caption">
                       <span v-if="item.name.includes('Search')">
-                        <i>{{ item.taskItem.taskSettings.searchTerm }}</i> -
+                        {{ item.taskItem.taskSettings.searchTerm }} -
                       </span>
                       {{ item.taskGood }} / {{ item.taskTotal }}
                     </div>
@@ -46,6 +47,11 @@
 export default {
   components: {},
   name: "task-timeline",
+  data() {
+    return {
+      search: "",
+    };
+  },
   methods: {
     colorSwitch(c) {
       if (c === 1) {

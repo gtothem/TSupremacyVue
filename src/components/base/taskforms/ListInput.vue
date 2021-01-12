@@ -1,72 +1,78 @@
 <template>
   <div>
-    <v-container>
-      <v-row no-gutters>
-        <v-col cols="auto">
-          <v-btn @click.stop="dialog = true" small class="primary mt-4"
-            >Add</v-btn
-          >
-        </v-col>
-        <v-col cols="2">
-          <v-file-input
-            accept=".txt"
-            label="File input"
-            @change="onFileChange"
-          ></v-file-input>
-        </v-col>
-      </v-row>
+    <v-row no-gutters>
+      <v-col cols="auto">
+        <v-btn @click.stop="dialog = true" small class="primary mt-4"
+          >Add</v-btn
+        >
+      </v-col>
+      <v-col cols="2">
+        <v-file-input
+          accept=".txt"
+          label="File input"
+          @change="onFileChange"
+        ></v-file-input>
+      </v-col>
+    </v-row>
 
-      <v-row no-gutters>
-        <v-col cols="auto">
-          <v-data-table
-            :items="myItemsTransformed"
-            :headers="headers"
-            class="elevation-1"
-            dense
-          >
-            <template v-slot:[`item.item`]="{ item }">
-              <v-icon sm color="error" @click="itemDelete(item.item)">
-                mdi-close
-              </v-icon>
-              {{ item.item }}
-            </template>
-          </v-data-table>
-        </v-col>
-      </v-row>
-      <v-row no-gutters class="mx-2 mt-4">
-        <v-col cols="auto">
-          <v-slider
-            v-model="storedItems.TaskSettings.count"
-            class="align-center"
-            :max="myItemsLength"
-            min="0"
-            hide-details
-            label="Count"
-            style="width: 300px"
-          >
-            <template v-slot:append>
-              <v-text-field
-                class="mt-0 pt-0"
-                hide-details
-                single-line
-                type="text"
-                style="width: 45px"
-                :value="storedItems.TaskSettings.count"
-              ></v-text-field>
-            </template>
-          </v-slider>
-        </v-col>
-
-        <v-col>
-          <v-switch
-            name="randomSwitch"
-            v-model="storedItems.TaskSettings.listRandom"
-            label="Randomize"
-            class="ml-4"
-          ></v-switch
-        ></v-col>
-      </v-row>
-    </v-container>
+    <v-row no-gutters>
+      <v-col cols="auto">
+        <v-data-table
+          :items="myItemsTransformed"
+          :headers="headers"
+          class="elevation-1"
+          dense
+        >
+          <template v-slot:[`item.item`]="{ item }">
+            <v-icon sm color="error" @click="itemDelete(item.item)">
+              mdi-close
+            </v-icon>
+            {{ item.item }}
+          </template>
+        </v-data-table>
+      </v-col>
+    </v-row>
+    <v-row no-gutters class="mx-2 mt-4">
+      <v-col cols="auto">
+        <v-slider
+          v-model="storedItems.TaskSettings.count"
+          class="align-center"
+          :max="myItemsLength"
+          min="0"
+          hide-details
+          label="Count"
+          style="width: 300px"
+        >
+          <template v-slot:append>
+            <v-text-field
+              class="mt-0 pt-0"
+              hide-details
+              single-line
+              type="text"
+              style="width: 45px"
+              :value="storedItems.TaskSettings.count"
+            ></v-text-field>
+          </template>
+        </v-slider>
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
+      <v-col cols="auto">
+        <v-switch
+          name="randomSwitch"
+          v-model="storedItems.TaskSettings.listRandom"
+          label="Randomize"
+          class="ml-4"
+        ></v-switch></v-col
+      ><v-col>
+        <v-switch
+          v-if="storedItems.UserList.length > 1"
+          name="splitSwitch"
+          v-model="storedItems.TaskSettings.listSplit"
+          label="Split"
+          class="ml-4"
+        ></v-switch></v-col
+    ></v-row>
 
     <v-dialog v-model="dialog" max-width="290">
       <v-card>

@@ -10,6 +10,8 @@ export default new Vuex.Store({
       "https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg",
     drawer: null,
     token: null,
+    profile: null,
+    dash: null,
     accounts: [],
     console: [],
     proxies: [],
@@ -18,6 +20,7 @@ export default new Vuex.Store({
     friends: [],
     followers: [],
     statuses: [],
+    likes: [],
     actions: [],
     tasks: []
   },
@@ -56,11 +59,20 @@ export default new Vuex.Store({
     SET_STATUSES(state, payload) {
       state.statuses = payload;
     },
+    SET_LIKES(state, payload) {
+      state.likes = payload;
+    },
     SET_ACTIONS(state, payload) {
       state.actions = payload;
     },
     SET_TASKS(state, payload) {
       state.tasks = payload;
+    },
+    SET_PROFILE(state, payload) {
+      state.profile = payload;
+    },
+    SET_DASH(state, payload) {
+      state.dash = payload;
     },
     GET_LOCAL() {
       this.replaceState(

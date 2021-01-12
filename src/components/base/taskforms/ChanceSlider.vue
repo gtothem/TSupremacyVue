@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row v-if="mode === 'Single'">
-      <v-col cols="3" class="pr-4">
+      <v-col cols="auto">
         <v-slider
           v-if="task === 'Like-Search'"
           v-model="storedItems.TaskSettings.likeChance"
@@ -87,12 +87,15 @@
         </v-slider>
       </v-col>
     </v-row>
+    <span v-if="mode === 'Multi'" class="grey--text font-weight-light"
+      >Actions to be run on the Tweet after the main Action</span
+    >
     <v-row v-if="mode === 'Multi'">
-      <v-col cols="3" class="pr-4">
+      <v-col cols="auto">
         <v-slider
           v-if="task !== 'Like-Search'"
           v-model="storedItems.TaskSettings.likeChance"
-          class="align-center"
+          class="align-center ml-2"
           max="100"
           min="0"
           hide-details
@@ -113,7 +116,7 @@
         <v-slider
           v-if="task !== 'Reply-Search'"
           v-model="storedItems.TaskSettings.replyChance"
-          class="align-center"
+          class="align-center ml-2"
           max="100"
           min="0"
           hide-details
@@ -134,7 +137,7 @@
         <v-slider
           v-if="task !== 'Follow-Search'"
           v-model="storedItems.TaskSettings.followChance"
-          class="align-center"
+          class="align-center ml-2"
           max="100"
           min="0"
           hide-details
@@ -155,7 +158,7 @@
         <v-slider
           v-if="task !== 'Retweet-Search'"
           v-model="storedItems.TaskSettings.retweetChance"
-          class="align-center"
+          class="align-center ml-2"
           max="100"
           min="0"
           label="Retweet Chance"
@@ -173,12 +176,12 @@
           </template>
         </v-slider>
 
-        <span class="caption grey--text font-weight-light mx-2"
+        <span class="grey--text font-weight-light"
           >Actions to be run on the User after the main Action</span
         >
         <v-slider
           v-model="storedItems.TaskSettings.likeUserChance"
-          class="align-center mt-2"
+          class="align-center mt-2 ml-2"
           max="100"
           min="0"
           hide-details
@@ -205,6 +208,9 @@
           style="width: 300px"
         >
           <template v-slot:prepend>
+            <span class="caption grey--text font-weight-light ml-4 mt-2"
+              >Count</span
+            >
             <v-text-field
               :value="storedItems.TaskSettings.likeUserCount[0]"
               class="mt-0 pt-0 ml-6"
@@ -228,8 +234,32 @@
           </template>
         </v-range-slider>
         <v-slider
-          v-model="storedItems.TaskSettings.replyUserChance"
+          v-model="storedItems.TaskSettings.likeUserPostChance"
           class="align-center"
+          max="100"
+          min="0"
+          hide-details
+          style="width: 300px"
+        >
+          <template v-slot:prepend>
+            <span class="caption grey--text font-weight-light ml-4"
+              >Chance</span
+            >
+          </template>
+          <template v-slot:append>
+            <v-text-field
+              class="mt-0 pt-0"
+              hide-details
+              single-line
+              type="text"
+              style="width: 45px"
+              :value="storedItems.TaskSettings.likeUserPostChance + '%'"
+            ></v-text-field>
+          </template>
+        </v-slider>
+        <v-slider
+          v-model="storedItems.TaskSettings.replyUserChance"
+          class="align-center mt-2 ml-2"
           max="100"
           min="0"
           hide-details
@@ -256,6 +286,9 @@
           style="width: 300px"
         >
           <template v-slot:prepend>
+            <span class="caption grey--text font-weight-light ml-4 mt-2"
+              >Count</span
+            >
             <v-text-field
               :value="storedItems.TaskSettings.replyUserCount[0]"
               class="mt-0 pt-0 ml-6"
@@ -278,6 +311,30 @@
             ></v-text-field>
           </template>
         </v-range-slider>
+        <v-slider
+          v-model="storedItems.TaskSettings.replyUserPostChance"
+          class="align-center"
+          max="100"
+          min="0"
+          hide-details
+          style="width: 300px"
+        >
+          <template v-slot:prepend>
+            <span class="caption grey--text font-weight-light ml-4"
+              >Chance</span
+            >
+          </template>
+          <template v-slot:append>
+            <v-text-field
+              class="mt-0 pt-0"
+              hide-details
+              single-line
+              type="text"
+              style="width: 45px"
+              :value="storedItems.TaskSettings.replyUserPostChance + '%'"
+            ></v-text-field>
+          </template>
+        </v-slider>
       </v-col>
     </v-row>
   </div>
@@ -311,4 +368,14 @@ export default {
 </script>
 
 <style scoped>
+hr.style-two {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0)
+  );
+}
 </style>

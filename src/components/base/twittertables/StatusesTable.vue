@@ -10,18 +10,19 @@
             </span>
           </v-col>
           <v-spacer></v-spacer>
-          <v-col>
+          <v-col cols="auto">
             <v-text-field
               v-model="search"
-              append-icon="mdi-magnify"
+              prepend-inner-icon="mdi-magnify"
               label="Search"
               single-line
               hide-details
+              clearable
               style="display: inline"
             ></v-text-field>
           </v-col>
           <v-col cols="auto">
-              <v-btn small outlined rounded>Filters</v-btn>
+            <v-btn small outlined rounded>Filters</v-btn>
           </v-col>
         </v-row>
       </template>
@@ -36,6 +37,18 @@
           class="elevation-1"
           :search="search"
         >
+          <template v-slot:[`item.id`]="{ item }">
+            <span
+              ><a
+                :href="
+                  'https://twitter.com/' + item.username + '/status/' + item.id
+                "
+                target="_blank"
+                >{{ item.id }}</a
+              ></span
+            >
+          </template>
+
           <template v-slot:[`item.created`]="{ item }">
             <span>{{ new Date(item.created).toLocaleString() }}</span>
           </template>
@@ -96,6 +109,7 @@ export default {
   },
   created() {
     this.getstatusesAPI();
+    console.log(this.user);
   },
   data() {
     return {
@@ -133,11 +147,7 @@ export default {
   border: 0px solid rgb(0, 77, 128);
   padding: 10px;
 }
-button {
-  margin: 0 0.5rem 0 0;
-}
-.blue {
-  color: dodgerblue;
-  margin-right: 0.2rem;
+a {
+  text-decoration: none;
 }
 </style>

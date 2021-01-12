@@ -62,7 +62,7 @@
             bordered
           >
             <template v-slot:badge>
-              <span>5</span>
+              <span>1</span>
             </template>
 
             <v-icon>mdi-bell</v-icon>

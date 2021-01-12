@@ -264,9 +264,9 @@ export default {
               { title: "Single", icon: "mdi-comment-edit" },
               { title: "List", icon: "mdi-format-list-checks" },
               { title: "Image", icon: "mdi-text-box-search" },
-              { title: "Poll", icon: "mdi-text-box-search" },
+              /*{ title: "Poll", icon: "mdi-text-box-search" },
               { title: "Delete", icon: "mdi-text-box-search" },
-              { title: "Report", icon: "mdi-text-box-search" },
+              { title: "Report", icon: "mdi-text-box-search" },*/
             ],
           },
           {
@@ -278,11 +278,11 @@ export default {
               { title: "Search", icon: "mdi-text-box-search" },
             ],
           },
-          {
+          /*{
             title: "Message",
             icon: "mdi-message",
             subitems: [{ title: "Followers", icon: "mdi-comment-edit" }],
-          },
+          },*/
           {
             title: "Reply",
             icon: "mdi-message-reply-text",
@@ -309,8 +309,8 @@ export default {
               { title: "Single", icon: "mdi-message-reply-text" },
               { title: "List", icon: "mdi-format-list-checks" },
               { title: "Search", icon: "mdi-text-box-search" },
-              { title: "My Followers", icon: "mdi-heart" },
-              { title: "My Recommended", icon: "mdi-heart" },
+              /*{ title: "My Followers", icon: "mdi-heart" },
+              { title: "My Recommended", icon: "mdi-heart" },*/
               { title: "Users Followers", icon: "mdi-account-heart" },
               { title: "Users Friends", icon: "mdi-account-heart" },
             ],
@@ -321,8 +321,8 @@ export default {
             subitems: [
               { title: "Single", icon: "mdi-message-reply-text" },
               { title: "List", icon: "mdi-format-list-checks" },
-              { title: "Filter", icon: "mdi-filter" },
-              { title: "Nonfollowers", icon: "mdi-filter" },
+              { title: "Filter", icon: "mdi-filter-off-outline" },
+              { title: "Nonfollowers", icon: "mdi-account-alert-outline" },
             ],
           },
           {
@@ -386,7 +386,7 @@ export default {
             subitems: [
               { title: "Single", icon: "mdi-message-reply-text" },
               { title: "List", icon: "mdi-format-list-checks" },
-              { title: "Filter", icon: "mdi-filter" },
+              { title: "Filter", icon: "mdi-filter-off" },
             ],
           },
         ],

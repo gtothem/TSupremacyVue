@@ -4,9 +4,9 @@
       <template v-slot:heading>
         <v-row>
           <v-col cols="auto">
-            <v-icon sm class="ml-2"> mdi-account-group</v-icon>
+            <v-icon sm> mdi-account-group</v-icon>
             <span class="display-2 font-weight-light ml-2">
-              Friends List ({{ $store.state.friends.length }})
+              Likes List ({{ $store.state.likes.length }})
             </span>
           </v-col>
           <v-spacer></v-spacer>
@@ -31,41 +31,46 @@
           dense
           v-model="selected"
           :headers="headers"
-          :items="$store.state.friends"
+          :items="$store.state.likes"
           item-key="id"
           show-select
           class="elevation-1"
           :search="search"
         >
+          <template v-slot:[`item.id`]="{ item }">
+            <span
+              ><a
+                :href="
+                  'https://twitter.com/' + item.user + '/status/' + item.id
+                "
+                target="_blank"
+                >{{ item.id }}</a
+              ></span
+            >
+          </template>
           <template v-slot:[`item.user`]="{ item }">
-            <a href="#" style="text-decoration: none"> {{ item.user }}</a>
+            <span
+              ><a :href="'https://twitter.com/' + item.user" target="_blank">{{
+                item.user
+              }}</a></span
+            >
           </template>
         </v-data-table>
       </v-card-text>
 
-      <friends-toolbar />
+      <likes-toolbar />
     </base-material-card>
   </div>
 </template>
 
 <script>
-import FriendsToolbar from "../toolbars/FriendsToolbar";
+import likesToolbar from "../toolbars/LikesToolbar";
 export default {
-  components: { FriendsToolbar },
-  name: "friends-table",
+  components: { likesToolbar },
+  name: "likes-table",
   methods: {
-    formatStatus(status) {
-      switch (status) {
-        case "Good":
-          return "fa fa-check-circle blue";
-        case "Paused":
-          return "fa fa-pause blue";
-        case "Queued":
-          return "fa fa-heart blue";
-      }
-    },
-    async getFriendsAPI() {
-      fetch("https://localhost:44396/TwitterBot/Friends", {
+    async getLikesAPI() {
+      fetch("https://localhost:44396/TwitterBot/Likes", {
         method: "POST",
         body: this.user.userId,
         credentials: "include",
@@ -73,9 +78,8 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Success:", data);
-          //this.friends = data.data;
-          this.$store.commit("SET_FRIENDS", data.data);
+          console.log("Likes:", data);
+          this.$store.commit("SET_LIKES", data);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -83,7 +87,7 @@ export default {
     },
   },
   created() {
-    this.getFriendsAPI();
+    this.getLikesAPI();
   },
   data() {
     return {
@@ -95,14 +99,8 @@ export default {
           align: "start",
           value: "user",
         },
-        { text: "STATUSES", value: "statuses" },
-        { text: "LIKES", value: "likes" },
-        { text: "FRIENDS", value: "friends" },
-        { text: "FOLLOWERS", value: "followers" },
-        { text: "FOLLOWBACK", value: "followBack" },
-        { text: "VERIFIED", value: "verified" },
-        { text: "NAME", value: "name" },
-        { text: "DESCRIPTION", value: "description" },
+        { text: "ID", value: "id" },
+        { text: "TIME", value: "time" },
       ],
     };
   },
@@ -117,4 +115,14 @@ export default {
 </script>
 
 <style scoped>
+.center {
+  margin: auto;
+  width: 90%;
+  border: 0px solid rgb(0, 77, 128);
+  padding: 10px;
+}
+
+a {
+  text-decoration: none;
+}
 </style>

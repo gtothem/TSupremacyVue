@@ -76,7 +76,9 @@ export default {
   watch: {
     console: {
       handler: function () {
-        this.scrollBottom();
+      let table = this.$refs["consoleTable"];
+      let wrapper = table.$el.querySelector("div.v-data-table__wrapper");
+      wrapper.scrollTop = wrapper.scrollHeight;
       },
       deep: true,
     },

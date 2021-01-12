@@ -10,18 +10,19 @@
             >
           </v-col>
           <v-spacer></v-spacer>
-          <v-col>
+          <v-col cols="auto">
             <v-text-field
               v-model="search"
-              append-icon="mdi-magnify"
+              prepend-inner-icon="mdi-magnify"
               label="Search"
               single-line
               hide-details
+              clearable
               style="display: inline"
             ></v-text-field>
           </v-col>
           <v-col cols="auto">
-              <v-btn small outlined rounded>Filters</v-btn>
+            <v-btn small outlined rounded>Filters</v-btn>
           </v-col>
         </v-row>
       </template>

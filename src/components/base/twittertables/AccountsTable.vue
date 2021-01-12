@@ -1,6 +1,6 @@
 <template>
   <div>
-    <base-material-card color="primary" class="px-5 py-3 ">
+    <base-material-card color="primary" class="px-5 py-3">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">
           Accounts ({{ $store.state.accounts.length }})
@@ -22,8 +22,7 @@
                 ><v-avatar size="30px" class="mr-2">
                   <img :src="item.picture" alt="" />
                 </v-avatar>
-                {{ item.username
-                }}</a
+                {{ item.username }}</a
               ></b
             >
           </template>
@@ -170,7 +169,7 @@ export default {
         function (scope) {
           scope.getAccountsAPI();
         },
-        1000,
+        1500,
         this
       );
     }

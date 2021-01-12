@@ -211,8 +211,8 @@ export default {
   name: "DashboardDashboard",
   components: { Reports, ActivityFullTable },
   created() {
-    this.getDash();
     this.$store.commit("GET_LOCAL");
+    this.getDash();
   },
   computed: {
     dailyChange() {
@@ -273,6 +273,7 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log("Dash:", data);
+          
           this.dailyTasksChart.data = data.dailyTasks;
           this.dailyTasksChart.options.high =
             Math.max(...data.dailyTasks.series[0]) + 5;
