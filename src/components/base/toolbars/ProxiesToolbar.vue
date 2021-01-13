@@ -48,6 +48,16 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="dialogWarn" max-width="300">
+      <v-card>
+        <v-card-title class="headline"> Proxies </v-card-title>
+        <v-card-text class="text-center"> No Proxies(s) selected! </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="dialogWarn = false"> Ok </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -58,6 +68,10 @@ export default {
   name: "proxies-toolbar",
   methods: {
     proxyRun(task) {
+      if (Object.keys(this.selected).length == 0) {
+        this.dialogWarn = true;
+        return;
+      }
       this.selected.forEach((value, index) => {          
         console.log(value.id);
         this.$store.state.proxies.find(x => x.id === value.id).status = "Testing";
@@ -89,6 +103,7 @@ export default {
     proxyProxy: null,
     proxyUser: null,
     proxyPass: null,
+    dialogWarn: false,
   }),
   props: {
     selected: {

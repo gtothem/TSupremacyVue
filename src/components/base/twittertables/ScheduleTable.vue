@@ -18,6 +18,8 @@
           item-key="name"
           show-select
           class="elevation-1"
+          sort-by="time"
+          :sort-desc="false"
         >
           <template v-slot:[`item.name`]="{ item }">
             <a href="#" style="text-decoration: none"
@@ -66,7 +68,7 @@ import CountTimer from "./CountTimer.vue";
 export default {
   components: { SchedulesToolbar, CountTimer },
   name: "schedule-table",
-  methods: {
+  methods: {      
     countDown() {
       this.theTime = new Date().toLocaleTimeString();
       this.timer = setTimeout(() => {

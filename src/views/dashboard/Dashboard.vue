@@ -36,8 +36,12 @@
           </h4>
 
           <p class="d-inline-flex font-weight-light ml-2 mt-1">
-            <v-icon v-if="dailyChange >= 0" color="green" small> mdi-arrow-up </v-icon>
-            <v-icon v-if="dailyChange < 0" color="green" small> mdi-arrow-down </v-icon>
+            <v-icon v-if="dailyChange >= 0" color="green" small>
+              mdi-arrow-up
+            </v-icon>
+            <v-icon v-if="dailyChange < 0" color="green" small>
+              mdi-arrow-down
+            </v-icon>
             <span class="green--text mr-1">{{ dailyChange }}%</span>&nbsp;
             increase in today's tasks
           </p>
@@ -87,8 +91,12 @@
           </h4>
 
           <p class="d-inline-flex font-weight-light ml-2 mt-1">
-            <v-icon v-if="monthlyChange >= 0" color="green" small> mdi-arrow-up </v-icon>
-            <v-icon v-if="monthlyChange < 0" color="green" small> mdi-arrow-down </v-icon>
+            <v-icon v-if="monthlyChange >= 0" color="green" small>
+              mdi-arrow-up
+            </v-icon>
+            <v-icon v-if="monthlyChange < 0" color="green" small>
+              mdi-arrow-down
+            </v-icon>
             <span class="green--text mr-1">{{ monthlyChange }}%</span>&nbsp;
             increase in this month's tasks
           </p>
@@ -137,7 +145,8 @@
           </h3>
 
           <p class="d-inline-flex font-weight-light ml-2 mt-1">
-            Your total actions: <a click="" class="ml-1">{{ this.totalActions }}</a>
+            Your total actions:
+            <a click="" class="ml-1">{{ this.totalActions }}</a>
           </p>
 
           <template v-slot:actions>
@@ -198,7 +207,10 @@
       </v-col>
 
       <v-col cols="12" sm="12" lg="6">
-          <activity-full-table :user="$store.state.accounts[0]"  :itemsPerPage=10 />
+        <activity-full-table
+          :user="$store.state.accounts[0]"
+          :itemsPerPage="10"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -206,13 +218,14 @@
 
 <script>
 import Reports from "../../components/base/twittertables/ReportsTable";
-import ActivityFullTable from '../../components/base/twittertables/ActivityFullTable.vue';
+import ActivityFullTable from "../../components/base/twittertables/ActivityFullTable.vue";
 export default {
   name: "DashboardDashboard",
   components: { Reports, ActivityFullTable },
   created() {
     this.$store.commit("GET_LOCAL");
     this.getDash();
+    this.getNews();
   },
   computed: {
     dailyChange() {
@@ -273,7 +286,7 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log("Dash:", data);
-          
+
           this.dailyTasksChart.data = data.dailyTasks;
           this.dailyTasksChart.options.high =
             Math.max(...data.dailyTasks.series[0]) + 5;
@@ -298,6 +311,23 @@ export default {
         .catch((error) => {
           console.error("Error:", error);
           this.updating = false;
+        });
+    },
+    async getNews() {
+      fetch("https://localhost:44396/TwitterBot/News", {
+        method: "POST",
+        body: "",
+        credentials: "include",
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("News:", data);
+          //this.schedules = data.data;
+          this.$store.commit("SET_NEWS", data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
         });
     },
   },

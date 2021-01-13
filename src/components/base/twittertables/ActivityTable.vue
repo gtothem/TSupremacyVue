@@ -12,13 +12,14 @@
           <v-col>
             <v-data-table
               dense
+              v-model="selected"
               :headers="headers"
               :items="$store.state.actions"
               item-key="id"
               class="elevation-1"
-              :itemsPerPage="15"
+              :itemsPerPage="13"
               :hide-default-footer="false"
-              fixed-header
+              show-select
             >
               <template v-slot:[`item.action`]="{ item }">
                 <v-icon sm color="primary" class="pr-2"
@@ -39,13 +40,15 @@
           </v-col>
         </v-row>
       </v-card-text>
+      <activity-toolbar :selected="selected" />
     </base-material-card>
   </div>
 </template>
 
 <script>
+import ActivityToolbar from "../toolbars/ActivityToolbar";
 export default {
-  components: { },
+  components: { ActivityToolbar },
   name: "activity-table",
   methods: {
     viewTask(t) {
@@ -94,13 +97,13 @@ export default {
         });
     },
   },
-  watch:  {
+  watch: {
     user: {
       handler: function () {
-          this.getActivityAPI();
+        this.getActivityAPI();
       },
       deep: true,
-    },    
+    },
   },
   created() {
     if (!this.user) {
@@ -110,6 +113,7 @@ export default {
   },
   data() {
     return {
+      selected: null,
       headers: [
         {
           text: "ACTION",

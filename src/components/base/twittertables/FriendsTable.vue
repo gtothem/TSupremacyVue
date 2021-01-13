@@ -40,10 +40,24 @@
           <template v-slot:[`item.user`]="{ item }">
             <a href="#" style="text-decoration: none"> {{ item.user }}</a>
           </template>
+          
+          <template v-slot:[`item.name`]="{ item }">
+            <small v-if="item.name.length >= 15">{{
+              item.name
+            }}</small>
+            <span v-if="item.name.length < 15">{{ item.name }}</span>
+          </template>
+
+          <template v-slot:[`item.description`]="{ item }">
+            <small v-if="item.description.length > 100">{{
+              item.description
+            }}</small>
+            <span v-if="item.description.length < 100">{{ item.description }}</span>
+          </template>
         </v-data-table>
       </v-card-text>
 
-      <friends-toolbar />
+      <friends-toolbar :selected="selected" :user="user" />
     </base-material-card>
   </div>
 </template>

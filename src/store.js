@@ -22,7 +22,8 @@ export default new Vuex.Store({
     statuses: [],
     likes: [],
     actions: [],
-    tasks: []
+    tasks: [],
+    news: [],
   },
   mutations: {
     SET_BAR_IMAGE(state, payload) {
@@ -73,6 +74,9 @@ export default new Vuex.Store({
     },
     SET_DASH(state, payload) {
       state.dash = payload;
+    },
+    SET_NEWS(state, payload) {
+      state.news = payload;
     },
     GET_LOCAL() {
       this.replaceState(

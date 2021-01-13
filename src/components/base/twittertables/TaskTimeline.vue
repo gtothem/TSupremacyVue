@@ -55,9 +55,9 @@ export default {
   methods: {
     colorSwitch(c) {
       if (c === 1) {
-        return "primary darken-3";
+        return "primary darken-2";
       } else {
-        return "primary lighten-3";
+        return "primary lighten-2";
       }
     },
     viewTask(t) {

@@ -26,13 +26,12 @@
       </v-list>
     </v-menu>
 
-    <v-btn rounded color="primary" class="ml-2" @click="saveFile()"
-      >Export</v-btn
-    >
     <v-dialog v-model="dialogWarn" max-width="300">
       <v-card>
-        <v-card-title class="headline"> Friends </v-card-title>
-        <v-card-text class="text-center"> No Friends(s) selected! </v-card-text>
+        <v-card-title class="headline"> Activity </v-card-title>
+        <v-card-text class="text-center">
+          No Activity(s) selected!
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" @click="dialogWarn = false"> Ok </v-btn>
@@ -45,35 +44,8 @@
 <script>
 export default {
   components: {},
-  name: "friends-toolbar",
+  name: "activity-toolbar",
   methods: {
-    saveFile: function () {
-      let data = JSON.stringify(this.$store.state.friends);
-      let blob = new Blob([data], { type: "text/plain" });
-      let e = document.createEvent("MouseEvents"),
-        a = document.createElement("a");
-      a.download = "test.json";
-      a.href = window.URL.createObjectURL(blob);
-      a.dataset.downloadurl = ["text/json", a.download, a.href].join(":");
-      e.initEvent(
-        "click",
-        true,
-        false,
-        window,
-        0,
-        0,
-        0,
-        0,
-        0,
-        false,
-        false,
-        false,
-        false,
-        0,
-        null
-      );
-      a.dispatchEvent(e);
-    },
     runTask(action) {
       if (Object.keys(this.selected).length == 0) {
         this.dialogWarn = true;
@@ -84,16 +56,6 @@ export default {
         params: { taskName: action, taskMode: "Now", accounts: this.selected },
       });
     },
-    runSchedule(action) {
-      this.$router.push({
-        name: "TaskBuilder",
-        params: {
-          taskName: action,
-          taskMode: "Schedule",
-          accounts: this.selected,
-        },
-      });
-    },
   },
   created() {},
   data() {
@@ -102,16 +64,8 @@ export default {
       items: {
         tasks: [
           {
-            title: "Reply",
-            icon: "mdi-message-reply-text",
-          },
-          {
-            title: "Like",
-            icon: "mdi-thumb-up",
-          },
-          {
-            title: "Unfollow",
-            icon: "mdi-account-multiple-minus",
+            title: "Undo",
+            icon: "mdi-undo",
           },
         ],
       },
@@ -122,11 +76,6 @@ export default {
       type: Array,
       default: () => [],
       description: "Selected items",
-    },
-    user: {
-      type: Object,
-      default: () => [],
-      description: "User data",
     },
   },
 };

@@ -2,7 +2,7 @@
   <div v-if="user">
     <base-material-card
       color="primary"
-      class="px-5 py-3 elevation-6"
+      class="px-5 py-3 elevation-0"
       size="pa-4"
     >
       <template v-slot:heading>

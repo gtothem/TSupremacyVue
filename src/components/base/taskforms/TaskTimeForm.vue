@@ -29,7 +29,7 @@
 
       <v-tabs-items v-model="tab">
         <v-tab-item :key="1" :value="'tab-1'">
-          <v-container class="">
+          <v-container>
             <v-row no-gutters>
               <v-text-field
                 v-model="storedItems.TaskSettings.minutes"
@@ -73,6 +73,7 @@
                   ampm-in-title
                   class="ml-4"
                   :disabled="!storedItems.TaskSettings.betweenCheckbox"
+                  :max="storedItems.TaskSettings.endTime"
                 ></v-time-picker>
               </v-col>
               <v-col cols="auto" :key="2">
@@ -81,6 +82,7 @@
                   ampm-in-title
                   class="ml-4"
                   :disabled="!storedItems.TaskSettings.betweenCheckbox"
+                  :min="storedItems.TaskSettings.startTime"
                 ></v-time-picker>
               </v-col>
             </v-row>
@@ -118,7 +120,7 @@ export default {
   watch: {
     tab: function (val) {
       if (this.taskMode === "Schedule") {
-        if (val === 'tab-1') {
+        if (val === "tab-1") {
           this.storedItems.TaskSettings.everyCheckbox = true;
           this.storedItems.TaskSettings.onceCheckbox = false;
         } else {

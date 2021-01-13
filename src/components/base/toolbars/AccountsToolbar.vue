@@ -164,7 +164,7 @@
     <v-dialog v-model="dialogWarn" max-width="300">
       <v-card>
         <v-card-title class="headline"> Accounts </v-card-title>
-        <v-card-text> No account(s) selected! </v-card-text>
+        <v-card-text class="text-center"> No Account(s) selected! </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" @click="dialogWarn = false"> Ok </v-btn>
@@ -181,21 +181,24 @@ export default {
   name: "accounts-toolbar",
   methods: {
     runTask(action) {
-      if (Object.keys(this.selected).length > 0) {
-        this.$router.push({
-          name: "TaskBuilder",
-          params: {
-            taskName: action,
-            taskMode: "Now",
-            accounts: this.selected,
-          },
-        });
-      } else {
+      if (Object.keys(this.selected).length == 0) {
         this.dialogWarn = true;
+        return;
       }
+      this.$router.push({
+        name: "TaskBuilder",
+        params: {
+          taskName: action,
+          taskMode: "Now",
+          accounts: this.selected,
+        },
+      });
     },
     runSchedule(action) {
-      if (Object.keys(this.selected).length > 0) {
+      if (Object.keys(this.selected).length == 0) {
+        this.dialogWarn = true;
+        return;
+      }
         this.$router.push({
           name: "TaskBuilder",
           params: {
@@ -204,9 +207,6 @@ export default {
             accounts: this.selected,
           },
         });
-      } else {
-        this.dialogWarn = true;
-      }
     },
     runAccounts(task) {
       switch (task) {

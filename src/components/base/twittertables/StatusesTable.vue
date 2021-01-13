@@ -54,10 +54,10 @@
           </template>
 
           <template v-slot:[`item.fullText`]="{ item }">
-            <small v-if="lenSize(item.fullText)">{{
-              item.fullText.substring(0, 180)
+            <small v-if="item.fullText.length > 100">{{
+              item.fullText
             }}</small>
-            <span v-if="!lenSize(item.fullText)">{{ item.fullText }}</span>
+            <span v-if="item.fullText.length < 100">{{ item.fullText }}</span>
           </template>
         </v-data-table>
       </v-card-text>
@@ -73,12 +73,6 @@ export default {
   components: { statusesToolbar },
   name: "statuses-table",
   methods: {
-    lenSize(m) {
-      if (m.length > 60) {
-        return true;
-      }
-      return false;
-    },
     formatStatus(status) {
       switch (status) {
         case "Good":
